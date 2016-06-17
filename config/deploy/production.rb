@@ -33,6 +33,8 @@ server '159.203.251.83', roles: %w{web app db}, primary: true
 # Feel free to add new variables to customise your setup.
 set :deploy_to, "/home/deploy/apps/pdx_db"
 
+set :rbenv_type, :user
+set :rbenv_ruby, '2.3.0'
 
 # Custom SSH Options
 # ==================

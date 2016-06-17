@@ -8,8 +8,8 @@ set :user, "deploy"
 set :use_sudo, false
 set :scm, :git
 set :branch, "master"
-set :repository, "."
-set :deploy_via, :copy
+# set :repository, "."
+# set :deploy_via, :copy
 set :deploy_to, "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
 set :format, :pretty
 
