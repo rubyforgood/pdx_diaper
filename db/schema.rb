@@ -39,14 +39,12 @@ ActiveRecord::Schema.define(version: 20160618134414) do
   end
 
   create_table "donations", force: :cascade do |t|
-    t.string   "source"
-    t.string   "receipt_number"
-    t.integer  "dropoff_location_id"
+    t.string   "dropoff_location", limit: 255
+    t.string   "source",           limit: 255
+    t.string   "receipt_number",   limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "donations", ["dropoff_location_id"], name: "index_donations_on_dropoff_location_id"
 
   create_table "dropoff_locations", force: :cascade do |t|
     t.string   "name"
@@ -59,26 +57,28 @@ ActiveRecord::Schema.define(version: 20160618134414) do
     t.integer  "quantity"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "inventory_id"
+    t.integer  "item_id"
   end
 
   create_table "inventories", force: :cascade do |t|
-    t.string   "name"
-    t.string   "address"
+    t.string   "name",       limit: 255
+    t.string   "address",    limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "items", force: :cascade do |t|
-    t.string   "name"
-    t.string   "category"
-    t.string   "size"
+    t.string   "name",       limit: 255
+    t.string   "category",   limit: 255
+    t.string   "size",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "partners", force: :cascade do |t|
-    t.string   "name"
-    t.string   "email"
+    t.string   "name",       limit: 255
+    t.string   "email",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
