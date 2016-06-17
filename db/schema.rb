@@ -12,7 +12,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20160617200323) do
-ActiveRecord::Schema.define(version: 20160617195143) do
 
   create_table "donations", force: true do |t|
     t.string   "dropoff_location"
