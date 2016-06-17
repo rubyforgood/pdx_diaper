@@ -2,12 +2,12 @@
 #
 # Table name: donations
 #
-#  id               :integer          not null, primary key
-#  dropoff_location :string(255)
-#  source           :string(255)
-#  receipt_number   :string(255)
-#  created_at       :datetime
-#  updated_at       :datetime
+#  id                  :integer          not null, primary key
+#  source              :string(255)
+#  receipt_number      :string(255)
+#  dropoff_location_id :integer
+#  created_at          :datetime
+#  updated_at          :datetime
 #
 
 require "rails_helper"

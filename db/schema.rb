@@ -11,10 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+ActiveRecord::Schema.define(version: 20160617213604) do
 
-ActiveRecord::Schema.define(version: 20160617205818) do
+  create_table "containers", force: :cascade do |t|
+    t.string   "type"
+    t.integer  "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
-  create_table "donations", force: true do |t|
+  create_table "donations", force: :cascade do |t|
     t.string   "dropoff_location"
     t.string   "source"
     t.string   "receipt_number"
@@ -22,7 +28,20 @@ ActiveRecord::Schema.define(version: 20160617205818) do
     t.datetime "updated_at"
   end
 
-  create_table "items", force: true do |t|
+  create_table "holdings", force: :cascade do |t|
+    t.integer  "quantity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "inventories", force: :cascade do |t|
+    t.string   "name"
+    t.string   "address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "items", force: :cascade do |t|
     t.string   "name"
     t.string   "category"
     t.string   "size"
@@ -30,27 +49,14 @@ ActiveRecord::Schema.define(version: 20160617205818) do
     t.datetime "updated_at"
   end
 
-  create_table "partners", force: true do |t|
+  create_table "partners", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "tickets", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "holdings", force: true do |t|
-    t.integer  "quantity"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "inventories", force: true do |t|
-    t.string   "name"
-    t.string   "address"
+  create_table "tickets", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
