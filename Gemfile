@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'mime-types', '~>2.99'
+gem 'net-ssh', '~>2.9.4'
 gem 'rails', '4.1.7'
 
 # DotEnv to load production pw and all that
