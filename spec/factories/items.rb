@@ -10,5 +10,10 @@
 #  updated_at :datetime
 #
 
-class Item < ActiveRecord::Base
+FactoryGirl.define do
+	factory :item do
+		name "3T Diapers"
+		category "disposable"
+		size "3T"
+	end
 end

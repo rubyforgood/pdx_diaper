@@ -9,5 +9,9 @@
 #  updated_at       :datetime
 #
 
-class Donation < ActiveRecord::Base
+FactoryGirl.define do
+	factory :donation do
+		dropoff_location "Tidy Didy"
+		source "Donation"
+	end
 end
