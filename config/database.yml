@@ -49,6 +49,7 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: 5
+  host: localhost
   database: pdxdb_production
   username: pdxdb_prod
   password: <%= ENV['PRODUCTION_DB_PASSWORD'] %>
