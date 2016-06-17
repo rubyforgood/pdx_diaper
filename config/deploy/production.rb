@@ -50,6 +50,8 @@ set :ssh_options, {
    auth_methods: %w{publickey},
    user: 'deploy'
 }
+
+set :pty, true
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
