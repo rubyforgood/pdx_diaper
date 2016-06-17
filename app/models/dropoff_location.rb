@@ -13,7 +13,4 @@ class DropoffLocation < ActiveRecord::Base
 
 	has_many :donations
 
-	def receive_donation(donation_params)
-		donations.create(donation_params)
-	end
 end
