@@ -12,7 +12,8 @@
 
 FactoryGirl.define do
 	factory :donation do
-		dropoff_location "Tidy Didy"
+		dropoff_location
 		source "Donation"
+		receipt_number "ABCDEF"
 	end
 end

@@ -1,0 +1,17 @@
+<%= form_for(@dropoff_location) do |f| %>
+  <% if @dropoff_location.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dropoff_location.errors.count, "error") %> prohibited this dropoff_location from being saved:</h2>
+
+      <ul>
+      <% @dropoff_location.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
