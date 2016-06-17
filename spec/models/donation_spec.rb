@@ -13,27 +13,24 @@
 require "rails_helper"
 
 RSpec.describe Donation, type: :model do
+	let(:d) { FactoryGirl.create :donation }
 	it "has a dropoff location" do
-		donation = Donation.create(dropoff_location: "Phoenix", source: "Purchase")
-		expect(donation.dropoff_location).to_not be nil
+		expect(d.dropoff_location).to_not be nil
 	end
 	it "has a created date" do
-		donation = Donation.create(dropoff_location: "Phoenix", source: "Purchase")
-		expect(donation.created_at).to_not be nil
+		expect(d.created_at).to_not be nil
 	end
 	it "has a source" do
-		donation = Donation.create(dropoff_location: "Phoenix", source: "Purchase")
-		expect(donation.source).to_not be nil
+		expect(d.source).to_not be nil
 	end
 	it "has a receipt number" do
-		donation = Donation.create(dropoff_location: "Phoenix", receipt_number: "ABCDEFG", source: "Purchase")
-		expect(donation.receipt_number).to_not be nil
+		expect(d.receipt_number).to_not be nil
 	end
 
 	it "doesn't allow location to blank" do
 		expect(Donation.create(source: "Purchase", source: nil).valid?).to be false
 	end
 	it "doesn't allow source to be nil" do
-		expect(Donation.create(dropoff_location: "Phoenix", source: nil).valid?).to be false
+		expect{FactoryGirl.create(:donation, source: nil)}.to raise_error
 	end
 end

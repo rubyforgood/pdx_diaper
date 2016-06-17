@@ -11,13 +11,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 20160617205818) do
 
   create_table "donations", force: true do |t|
-    t.string   "dropoff_location"
     t.string   "source"
     t.string   "receipt_number"
+    t.integer  "dropoff_location_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "donations", ["dropoff_location_id"], name: "index_donations_on_dropoff_location_id"
+
+  create_table "dropoff_locations", force: true do |t|
+    t.string   "name"
+    t.string   "address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "holdings", force: true do |t|
+    t.integer  "quantity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "inventories", force: true do |t|
+    t.string   "name"
+    t.string   "address"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -38,19 +59,6 @@ ActiveRecord::Schema.define(version: 20160617205818) do
   end
 
   create_table "tickets", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "holdings", force: true do |t|
-    t.integer  "quantity"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "inventories", force: true do |t|
-    t.string   "name"
-    t.string   "address"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

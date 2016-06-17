@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :dropoff_locations
+
   resources :donations
 
   root 'application#home'
