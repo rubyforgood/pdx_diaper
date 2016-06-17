@@ -1,6 +1,6 @@
 FactoryGirl.define do
 	factory :container do
-		type "Diapers"
+		category "Diapers"
 		quantity 10
 	end
 end
