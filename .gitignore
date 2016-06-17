@@ -19,3 +19,9 @@
 /log/*.log
 /tmp
 .env
+
+# Ignore locally installed bundled gems
+/vendor/bundle
+
+# Ignore compiled assets
+/public/assets
