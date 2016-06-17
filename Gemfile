@@ -9,6 +9,9 @@ gem 'rails', '4.1.7'
 # DotEnv to load production pw and all that
 gem 'dotenv-rails', group: :production
 
+# Dashboard for managing resources
+gem 'activeadmin', github: 'activeadmin'
+
 # Use postgres as the database for Active Record
 gem 'pg', group: :production
 gem 'sqlite3', group: [:development, :test]
