@@ -8,4 +8,5 @@
 #
 
 class Ticket < ActiveRecord::Base
+  has_one :partner
 end

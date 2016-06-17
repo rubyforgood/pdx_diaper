@@ -10,5 +10,8 @@
 require "rails_helper"
 
 RSpec.describe Ticket, type: :model do
-  
+  it "has one partner" do
+    assc = described_class.reflect_on_association(:partner)
+    expect(assc.macro).to eq :has_one
+  end
 end
