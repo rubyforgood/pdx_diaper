@@ -8,5 +8,8 @@
 #  updated_at :datetime
 #
 
-class Holding < ActiveRecord::Base
+FactoryGirl.define do
+  factory :holding do
+    quantity 300
+  end
 end

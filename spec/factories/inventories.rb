@@ -9,5 +9,9 @@
 #  updated_at :datetime
 #
 
-class Inventory < ActiveRecord::Base
+FactoryGirl.define do
+  factory :inventory do
+    name "Smithsonian Institute"
+    address "1500 Remount Road, Front Royal, VA"
+  end
 end
