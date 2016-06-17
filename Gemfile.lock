@@ -52,6 +52,9 @@ GEM
       execjs
     coffee-script-source (1.10.0)
     diff-lcs (1.2.5)
+    dotenv (1.0.2)
+    dotenv-rails (1.0.2)
+      dotenv (= 1.0.2)
     erubis (2.7.0)
     execjs (2.7.0)
     factory_girl (4.7.0)
@@ -75,10 +78,10 @@ GEM
     mime-types-data (3.2016.0521)
     minitest (5.9.0)
     multi_json (1.12.1)
-    mysql2 (0.3.21)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.1.1)
+    pg (0.18.3)
     rack (1.5.5)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -156,10 +159,12 @@ PLATFORMS
 DEPENDENCIES
   capistrano-rails
   coffee-rails (~> 4.0.0)
+  dotenv
+  dotenv-rails
   factory_girl_rails
   jbuilder (~> 2.0)
   jquery-rails
-  mysql2 (~> 0.3.18)
+  pg
   rails (= 4.1.7)
   rspec-rails
   sass-rails (~> 4.0.3)

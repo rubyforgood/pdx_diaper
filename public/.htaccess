@@ -1,0 +1,5 @@
+Options -MultiViews
+PassengerResolveSymlinksInDocumentRoot on
+RailsEnv production
+RackBaseURI /
+SetEnv GEM_HOME /home/pdxdiape/ruby/gems
