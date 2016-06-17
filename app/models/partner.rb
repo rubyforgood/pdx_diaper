@@ -1,14 +1,13 @@
 # == Schema Information
 #
-# Table name: tickets
+# Table name: partners
 #
 #  id         :integer          not null, primary key
+#  name       :string(255)
+#  email      :string(255)
 #  created_at :datetime
 #  updated_at :datetime
 #
 
-require "rails_helper"
-
-RSpec.describe Ticket, type: :model do
-  
+class Partner < ActiveRecord::Base
 end
