@@ -9,8 +9,7 @@
 set :stage, :production
 set :rails_env, :production
 
-server '159.203.251.83', user: 'deploy', roles: %w{web}, primary: true
-
+server '159.203.251.83', roles: %w{web app db}, primary: true
 
 # role-based syntax
 # ==================
@@ -23,9 +22,7 @@ server '159.203.251.83', user: 'deploy', roles: %w{web}, primary: true
 # role :app, %w{deploy@example.com}, my_property: :my_value
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
-role :app, %w{pdxdiape@pdxdiaperbank.org}
-role :web, %w{pdxdiape@pdxdiaperbank.org}
-role :db, %w{pdxdiape@pdxdiaperbank.org}
+
 
 # Configuration
 # =============
