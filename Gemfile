@@ -7,7 +7,7 @@ gem 'net-ssh', '~>2.9.4'
 gem 'rails', '4.1.7'
 
 # DotEnv to load production pw and all that
-gem 'dotenv-rails', :require => 'dotenv/rails-now', group: :production
+gem 'dotenv-rails', group: :production
 
 # Use postgres as the database for Active Record
 gem 'pg', group: :production

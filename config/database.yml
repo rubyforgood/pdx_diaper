@@ -46,7 +46,9 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
   database: pdxdiape_production
   username: pdxdiape_prod
   password: <%= ENV['PRODUCTION_DB_PASSWORD'] %>
