@@ -20,4 +20,9 @@ RSpec.describe Inventory, type: :model do
 		inventory = FactoryGirl.create :inventory
 		expect(inventory.address).to_not be nil
 	end
+	it "has items" do
+		inventory = create :inventory
+		expect{inventory.items << create(:item)
+		inventory.reload}.to change{inventory.items.count}.by(1)
+	end
 end
