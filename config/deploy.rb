@@ -11,9 +11,13 @@ set :scm, :git
 set :branch, "master"
 set :repository, "."
 set :deploy_via, :copy
-set :deploy_to, "/home/#{user}/rails_apps/#{application}"
+set :deploy_to, "/home/#{fetch(:user)}/rails_apps/#{fetch(:application)}"
 
 server domain, :app, :web, :db, :primary => true
+
+set :tmp_dir, "/home/pdxdiape/rails_apps/capistrano_tmp"
+set :linked_files, %w{.env tmp/restart.txt}
+set :linked_dirs, %w{public}
 
 namespace :deploy do
 	task :start do ; end
