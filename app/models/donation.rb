@@ -10,4 +10,7 @@
 #
 
 class Donation < ActiveRecord::Base
+
+	validates :dropoff_location, presence: true
+	validates :source, presence: true
 end

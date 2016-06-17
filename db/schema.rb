@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20160617202619) do
   create_table "donations", force: true do |t|
     t.string   "dropoff_location"
     t.string   "source"
+    t.string   "receipt_number"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
