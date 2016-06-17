@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.7'
 
 # DotEnv to load production pw and all that
-gem 'dotenv-rails', :require => 'dotenv/rails-now'
+gem 'dotenv-rails', :require => 'dotenv/rails-now', group: :production
 
 # Use postgres as the database for Active Record
 gem 'pg', group: :production

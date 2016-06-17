@@ -6,7 +6,10 @@
 # server 'example.com', user: 'deploy', roles: %w{app db web}, my_property: :my_value
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
+set :stage, :production
+set :rails_env, :production
 
+server 'pdxdiaperbank.org', user: 'pdxdiape', roles: %w{web}, primary: true
 
 
 # role-based syntax
@@ -20,8 +23,9 @@
 # role :app, %w{deploy@example.com}, my_property: :my_value
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
-
-
+role :app, %w{pdxdiape@pdxdiaperbank.org}
+role :web, %w{pdxdiape@pdxdiaperbank.org}
+role :db, %w{pdxdiape@pdxdiaperbank.org}
 
 # Configuration
 # =============
@@ -30,7 +34,7 @@
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-
+set :deploy_to, "/home1/pdxdiape/rails_apps/pdx_db"
 
 
 # Custom SSH Options
@@ -41,11 +45,12 @@
 #
 # Global options
 # --------------
-#  set :ssh_options, {
-#    keys: %w(/home/rlisowski/.ssh/id_rsa),
-#    forward_agent: false,
-#    auth_methods: %w(password)
-#  }
+set :ssh_options, {
+   keys: %w{~/.ssh/id_rsa},
+   forward_agent: true,
+   auth_methods: %w{publickey},
+   user: 'pdxdiape'
+}
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
@@ -59,3 +64,20 @@
 #     auth_methods: %w(publickey password)
 #     # password: 'please use keys'
 #   }
+
+
+namespace :deploy do
+  task :restart do
+	run "touch #{File.join(current_path, 'tmp', 'restart.txt') }"
+  end
+
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      # Here we can do anything such as:
+      # within release_path do
+      #   execute :rake, 'cache:clear'
+      # end
+    end
+  end
+
+end
