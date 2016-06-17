@@ -1,27 +1,28 @@
 source 'https://rubygems.org'
-
+ruby '2.3.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'mime-types', '~>2.99'
-gem 'net-ssh', '~>2.9.4'
-gem 'rails', '4.1.7'
+gem 'rails'
 
 # DotEnv to load production pw and all that
 gem 'dotenv-rails', group: :production
 
 # Dashboard for managing resources
-gem 'activeadmin', github: 'activeadmin'
+#gem 'activeadmin', github: 'activeadmin'
 
 # Use postgres as the database for Active Record
 gem 'pg', group: :production
 gem 'sqlite3', group: [:development, :test]
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails', '~> 5.0'
+gem 'bootstrap-sass', '~> 3.3.5'
+gem 'font-awesome-rails'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails', '~> 4.1.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer',  platforms: :ruby
@@ -36,21 +37,42 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
-# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-gem 'spring',        group: :development
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use unicorn as the app server
-# gem 'unicorn'
-
 # Use Capistrano for deployment
-gem 'capistrano-rails', group: :development
+
 gem 'dotenv'
+
+
+  gem 'cancancan', '~> 1.10'
+  gem 'devise'
+
+group :production do
+	# Use unicorn as the app server
+	gem 'unicorn'
+end 
+
+group :development do
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'spring'
+  gem 'annotate'
+
+end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'rspec-rails', group: :test
-gem 'factory_girl_rails', group: :test
+group :test do
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
+end
+
+group :development, :test do
+  gem 'awesome_print'
+end
+

@@ -9,7 +9,7 @@
 set :stage, :production
 set :rails_env, :production
 
-server 'pdxdiaperbank.org', user: 'pdxdiape', roles: %w{web}, primary: true
+server '159.203.251.83', user: 'deploy', roles: %w{web}, primary: true
 
 
 # role-based syntax
@@ -34,7 +34,7 @@ role :db, %w{pdxdiape@pdxdiaperbank.org}
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-set :deploy_to, "/home1/pdxdiape/rails_apps/pdx_db"
+set :deploy_to, "/home/deploy/apps/pdx_db"
 
 
 # Custom SSH Options
@@ -49,7 +49,7 @@ set :ssh_options, {
    keys: %w{~/.ssh/id_rsa},
    forward_agent: true,
    auth_methods: %w{publickey},
-   user: 'pdxdiape'
+   user: 'deploy'
 }
 #
 # The server-based syntax can be used to override options:
@@ -68,7 +68,7 @@ set :ssh_options, {
 
 namespace :deploy do
   task :restart do
-	run "touch #{File.join(current_path, 'tmp', 'restart.txt') }"
+	# run "touch #{File.join(current_path, 'tmp', 'restart.txt') }"
   end
 
   after :restart, :clear_cache do
