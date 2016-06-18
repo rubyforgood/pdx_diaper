@@ -11,9 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160617205818) do
+ActiveRecord::Schema.define(version: 20160617213604) do
 
-  create_table "donations", force: true do |t|
+  create_table "containers", force: :cascade do |t|
+    t.string   "category"
+    t.integer  "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "donations", force: :cascade do |t|
     t.string   "source"
     t.string   "receipt_number"
     t.integer  "dropoff_location_id"
@@ -23,27 +30,27 @@ ActiveRecord::Schema.define(version: 20160617205818) do
 
   add_index "donations", ["dropoff_location_id"], name: "index_donations_on_dropoff_location_id"
 
-  create_table "dropoff_locations", force: true do |t|
+  create_table "dropoff_locations", force: :cascade do |t|
     t.string   "name"
     t.string   "address"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "holdings", force: true do |t|
+  create_table "holdings", force: :cascade do |t|
     t.integer  "quantity"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "inventories", force: true do |t|
+  create_table "inventories", force: :cascade do |t|
     t.string   "name"
     t.string   "address"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "items", force: true do |t|
+  create_table "items", force: :cascade do |t|
     t.string   "name"
     t.string   "category"
     t.string   "size"
@@ -51,14 +58,14 @@ ActiveRecord::Schema.define(version: 20160617205818) do
     t.datetime "updated_at"
   end
 
-  create_table "partners", force: true do |t|
+  create_table "partners", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "tickets", force: true do |t|
+  create_table "tickets", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
