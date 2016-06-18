@@ -19,7 +19,11 @@ class Donation < ActiveRecord::Base
   validates :source, presence: true
 
   def track(item,quantity)
-    Container.create(itemizable: self, item_id: item.id, quantity: quantity)
+    if !check_existence(item.id)
+      Container.create(itemizable: self, item_id: item.id, quantity: quantity)
+    else
+      update_quantity(quantity, item)
+    end
   end
 
   def total_items()
@@ -29,4 +33,18 @@ class Donation < ActiveRecord::Base
   def track_from_barcode(barcode_hash)
     Container.create(itemizable: self, item_id: barcode_hash[:item_id], quantity: barcode_hash[:quantity])
   end
+
+  def check_existence(id)
+    if container = self.containers.find_by(item_id: id)
+      true
+    else
+      false
+    end
+  end
+
+  def update_quantity(q, i)
+    container = self.containers.find_by(item_id: i.id)
+    container.quantity += q
+    container.save
+  end 
 end

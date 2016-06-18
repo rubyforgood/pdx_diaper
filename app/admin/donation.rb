@@ -50,22 +50,22 @@ end
         end
         nil
       end
-      div do
-        form_for :container, { :url => add_item_donation_path } do |f|
-          div do
-            f.label :category
-            f.text_field :category
-          end
-          div do
-            f.label :quantity
-            f.text_field :quantity
-          end
-          div do
-            f.label :item
-            f.select("item_id", Item.all.collect { |i| [i.name, i.id] } )
-          end
-            f.submit
-          end
+    end
+    panel "Add Item" do
+      form_for :container, { :url => add_item_donation_path } do |f|
+        div do
+          f.label :category
+          f.text_field :category
+        end
+        div do
+          f.label :quantity
+          f.text_field :quantity
+        end
+        div do
+          f.label :item
+          f.select("item_id", Item.all.collect { |i| [i.name, i.id] } )
+        end
+          f.submit
         end
       end
     end

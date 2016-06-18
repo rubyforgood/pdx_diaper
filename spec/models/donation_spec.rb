@@ -40,7 +40,6 @@ RSpec.describe Donation, type: :model do
   	d.track(item, 3)
   	expect(d.items.count).to eq(1)
   end
-
   it "has an item total" do
   	item1 = create :item
   	item2 = create :item
@@ -58,5 +57,20 @@ RSpec.describe Donation, type: :model do
 		donation = create :donation
 		barcode_item = create :barcode_item
 		expect{donation.track_from_barcode(barcode_item.to_container); donation.reload}.to change{donation.containers.count}.by(1)
+	end
+	describe "Tracking" do
+		it "does not add new container" do
+			item = FactoryGirl.create :item
+			d.containers.create(quantity: 5, item_id: item.id)
+			count = d.containers.count
+			d.track(item, 10)
+			expect(d.containers.count).to eq(count)
+		end
+		it "updates donation container's quantity" do
+			item = FactoryGirl.create :item
+			d.containers.create(quantity: 5, item_id: item.id)
+			d.track(item, 10)
+			expect(d.containers.find_by(item_id: item.id).quantity).to eq(15)
+		end
 	end
 end
