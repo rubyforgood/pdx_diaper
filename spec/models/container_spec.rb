@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: containers
+#
+#  id          :integer          not null, primary key
+#  category    :string
+#  quantity    :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  donation_id :integer
+#  item_id     :integer
+#
+
 require "rails_helper"
 
 RSpec.describe Container, type: :model do
