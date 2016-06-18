@@ -41,25 +41,38 @@ end
       row :created_at
       row :updated_at
       row "Items" do |donation|
-        link_to 'Create item', "#"
-        donation.items.each do |item|
-          item.name
+        donation.containers.each do |c|
+          attributes_table_for c do
+            row :quantity
+            row :category
+            row :item
+          end
         end
+        nil
       end
       div do
-        form_for resource.containers.build, { :url => add_item_donation_path } do |f|
+        form_for :container, { :url => add_item_donation_path } do |f|
+          div do
             f.label :category
-            f.input :category
+            f.text_field :category
+          end
+          div do
             f.label :quantity
-            f.input :quantity
+            f.text_field :quantity
+          end
+          div do
             f.label :item
             f.select("item_id", Item.all.collect { |i| [i.name, i.id] } )
+          end
             f.submit
           end
         end
       end
     end
   member_action :add_item, method: :post do
+    donation=Donation.find(params[:id])
+    item=Item.find(params[:container][:item_id])
+    donation.track(item,params[:container][:quantity].to_i)
     redirect_to donation_path(params[:id])
   end
 end
