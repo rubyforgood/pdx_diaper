@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: dropoff_locations
+#
+#  id         :integer          not null, primary key
+#  name       :string
+#  address    :string
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 require "rails_helper"
 
 RSpec.describe DropoffLocation, type: :model do

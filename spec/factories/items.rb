@@ -3,9 +3,9 @@
 # Table name: items
 #
 #  id         :integer          not null, primary key
-#  name       :string(255)
-#  category   :string(255)
-#  size       :string(255)
+#  name       :string
+#  category   :string
+#  size       :string
 #  created_at :datetime
 #  updated_at :datetime
 #

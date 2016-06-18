@@ -3,8 +3,8 @@
 # Table name: inventories
 #
 #  id         :integer          not null, primary key
-#  name       :string(255)
-#  address    :string(255)
+#  name       :string
+#  address    :string
 #  created_at :datetime
 #  updated_at :datetime
 #
@@ -20,13 +20,12 @@ RSpec.describe Inventory, type: :model do
 		inventory = build(:inventory, address: nil)
 		expect(inventory).not_to be_valid
 	end
-	it "has items" do
+
+
+	it "receives donations through intake method" do
 		inventory = create :inventory
-		holding = create :holding
-		item = create :item
-		expect {
-			holding.item = item
-			inventory.holdings << holding
-	}.to change{inventory.items.count}.by(1)
+		donation = create :donation
+		donation.items << create(item)
+		expect{inventory.intake!(donation); inventory.reload}.to_change{inventory.items.count}.by(1)
 	end
 end

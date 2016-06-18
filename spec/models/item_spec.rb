@@ -3,9 +3,9 @@
 # Table name: items
 #
 #  id         :integer          not null, primary key
-#  name       :string(255)
-#  category   :string(255)
-#  size       :string(255)
+#  name       :string
+#  category   :string
+#  size       :string
 #  created_at :datetime
 #  updated_at :datetime
 #
@@ -28,13 +28,23 @@ RSpec.describe Item, type: :model do
     expect(item.size).to_not be nil
   end
 
-  it "has one container" do
-    assc = described_class.reflect_on_association(:container)
-    expect(assc.macro).to eq :has_one
+  it "has many containers" do
+    assc = described_class.reflect_on_association(:containers)
+    expect(assc.macro).to eq :has_many
   end
 
-  it "has one holdings" do
-    assc = described_class.reflect_on_association(:holding)
-    expect(assc.macro).to eq :has_one
+  it "has many holdings" do
+    assc = described_class.reflect_on_association(:holdings)
+    expect(assc.macro).to eq :has_many
+  end
+
+  it "has many donations" do
+    assc = described_class.reflect_on_association(:donations)
+    expect(assc.macro).to eq :has_many
+  end
+
+  it "has many tickets" do
+    assc = described_class.reflect_on_association(:tickets)
+    expect(assc.macro).to eq :has_many
   end
 end

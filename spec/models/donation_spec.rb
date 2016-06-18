@@ -3,8 +3,8 @@
 # Table name: donations
 #
 #  id                  :integer          not null, primary key
-#  source              :string(255)
-#  receipt_number      :string(255)
+#  source              :string
+#  receipt_number      :string
 #  dropoff_location_id :integer
 #  created_at          :datetime
 #  updated_at          :datetime
@@ -31,4 +31,19 @@ RSpec.describe Donation, type: :model do
 		  expect(build(:donation, source: nil)).not_to be_valid
 	  end
   end
+
+  it "has many items" do
+  	item = create :item
+  	d.track(item, 3)
+  	expect(d.items.count).to eq(1)
+  end
+
+  it "has an item total" do
+  	item1 = create :item
+  	item2 = create :item
+  	d.track(item1, 4)
+  	d.track(item2, 5)
+  	expect(d.total_items).to eq(9)
+  end
+
 end
