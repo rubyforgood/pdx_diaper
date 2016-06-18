@@ -60,14 +60,13 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'annotate'
-
+  gem 'rspec-rails'
 end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
 group :test do
-  gem 'rspec-rails'
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
