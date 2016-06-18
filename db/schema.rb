@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160618153138) do
+ActiveRecord::Schema.define(version: 20160618174941) do
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -39,13 +39,15 @@ ActiveRecord::Schema.define(version: 20160618153138) do
   end
 
   create_table "containers", force: :cascade do |t|
-    t.string   "category"
     t.integer  "quantity"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.integer  "donation_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.integer  "item_id"
+    t.integer  "itemizable_id"
+    t.string   "itemizable_type"
   end
+
+  add_index "containers", ["itemizable_id", "itemizable_type"], name: "index_containers_on_itemizable_id_and_itemizable_type"
 
   create_table "donations", force: :cascade do |t|
     t.string   "source"
