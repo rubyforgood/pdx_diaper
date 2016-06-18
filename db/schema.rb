@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160618174941) do
-
+ActiveRecord::Schema.define(version: 20160618185754) do
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -52,7 +51,7 @@ ActiveRecord::Schema.define(version: 20160618174941) do
 
   create_table "donations", force: :cascade do |t|
     t.string   "source"
-    t.string   "receipt_number"
+    t.boolean  "completed",           default: false
     t.integer  "dropoff_location_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -71,6 +70,8 @@ ActiveRecord::Schema.define(version: 20160618174941) do
     t.integer  "quantity"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "inventory_id"
+    t.integer  "item_id"
   end
 
   create_table "inventories", force: :cascade do |t|
@@ -99,8 +100,10 @@ ActiveRecord::Schema.define(version: 20160618174941) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "partner_id"
+    t.integer  "inventory_id"
   end
 
+  add_index "tickets", ["inventory_id"], name: "index_tickets_on_inventory_id"
   add_index "tickets", ["partner_id"], name: "index_tickets_on_partner_id"
 
 end
