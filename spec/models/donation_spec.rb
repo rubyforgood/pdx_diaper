@@ -17,20 +17,18 @@ RSpec.describe Donation, type: :model do
 	it "has a dropoff location" do
 		expect(d.dropoff_location).to_not be nil
 	end
-	it "has a created date" do
-		expect(d.created_at).to_not be nil
-	end
 	it "has a source" do
 		expect(d.source).to_not be nil
 	end
 	it "has a receipt number" do
 		expect(d.receipt_number).to_not be nil
 	end
-
-	it "doesn't allow location to blank" do
-		expect(Donation.create(source: "Purchase", source: nil).valid?).to be false
-	end
-	it "doesn't allow source to be nil" do
-		expect{FactoryGirl.create(:donation, source: nil)}.to raise_error
-	end
+  describe "validations >" do
+	  it "doesn't allow location to blank" do
+		  expect(build(:donation, dropoff_location: nil)).not_to be_valid
+	  end
+	  it "doesn't allow source to be nil" do
+		  expect(build(:donation, source: nil)).not_to be_valid
+	  end
+  end
 end
