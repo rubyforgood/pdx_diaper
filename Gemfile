@@ -53,12 +53,14 @@ group :production do
 end
 
 group :development do
+  gem 'annotate'
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'capistrano-rails'
   gem 'capistrano-rbenv'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'annotate'
+  gem 'quiet_assets'
   gem 'rspec-rails'
+  gem 'spring'
 end
 
 # Use debugger

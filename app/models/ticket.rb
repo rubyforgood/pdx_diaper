@@ -9,5 +9,6 @@
 
 class Ticket < ActiveRecord::Base
   has_one :partner
-  has_many :items, through: :container
+  has_many :containers
+  has_many :items, through: :containers
 end

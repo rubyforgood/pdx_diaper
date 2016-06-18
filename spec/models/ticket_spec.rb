@@ -16,7 +16,7 @@ RSpec.describe Ticket, type: :model do
   end
 
   it "has many items through container" do
-    assc = described_class.reflect_on_association(:item)
+    assc = described_class.reflect_on_association(:items)
     expect(assc.macro).to eq :has_many
   end
 end

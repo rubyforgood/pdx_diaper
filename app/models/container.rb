@@ -13,6 +13,8 @@
 
 class Container < ActiveRecord::Base
   belongs_to :donation
+  belongs_to :ticket
   belongs_to :item
-	validates :quantity, presence: true
+
+  validates :quantity, presence: true
 end
