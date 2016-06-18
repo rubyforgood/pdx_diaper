@@ -46,5 +46,11 @@ class Donation < ActiveRecord::Base
     container = self.containers.find_by(item_id: i.id)
     container.quantity += q
     container.save
-  end 
+  end
+
+  def complete
+    self.completed = true
+    self.save
+  end
+
 end
