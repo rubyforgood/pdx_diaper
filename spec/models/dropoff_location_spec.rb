@@ -7,7 +7,7 @@ RSpec.describe DropoffLocation, type: :model do
 	end
 
 	it "has an address" do
-		expect(dropoff_location.name).to_not be nil
+		expect(dropoff_location.address).to_not be nil
 	end
 	it "has an array of Donation" do
 		expect(dropoff_location.donations).to eq([])
