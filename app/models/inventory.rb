@@ -17,8 +17,29 @@ class Inventory < ActiveRecord::Base
   validates :name, presence: true
   validates :address, presence: true
 
+  def self.item_total(item_id) 
+  	Inventory.select('quantity').joins(:holdings).where('holdings.item_id = ?', item_id).collect { |h| h.quantity }.reduce(:+)
+  end
 
-  def intake!
+  def item_total(item_id)
+  	holdings.select(item_id: item_id).first.quantity
+  end
+
+  def size
+  	holdings.collect { |h| h.quantity }.reduce(:+)
+  end
+
+  def intake!(donation)
+  	log = {}
+  	donation.containers.each do |container|
+  		holding = Holding.find_or_create_by(inventory_id: self.id, item_id: container.item_id) do |holding|
+  			holding.quantity = 0
+  		end
+  		holding.quantity += container.quantity rescue 0
+  		holding.save
+  		log[container.item_id] = "+#{container.quantity}"
+  	end
+  	log
   end
   
   def distribute!(items)
@@ -31,5 +52,6 @@ class Inventory < ActiveRecord::Base
         result.quantity = result.quantity - quantity
       end
     end
+    ticket
   end
 end

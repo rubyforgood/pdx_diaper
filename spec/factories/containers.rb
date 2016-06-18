@@ -11,11 +11,19 @@
 #  itemizable_type :string
 #
 
-class Container < ActiveRecord::Base
-  belongs_to :itemizable, polymorphic: true
-  belongs_to :item
+FactoryGirl.define do
+	factory :container do
+		quantity 10
+		item
+        itemizable_type "Donation"
+        itemizable_id { create(:donation).id }
 
-  validates :item_id, presence: true
-  validates :itemizable_id, presence: true
-  validates :quantity, presence: true
+		trait :donation do
+		end
+
+		trait :ticket do
+			itemizable_type "Ticket"
+			itemizable_id { create(:ticket).id }
+		end
+	end
 end

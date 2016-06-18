@@ -14,5 +14,6 @@ FactoryGirl.define do
   factory :holding do
     quantity 300
     item
+    inventory
   end
 end
