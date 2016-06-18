@@ -13,16 +13,20 @@ require "rails_helper"
 
 RSpec.describe Inventory, type: :model do
 	it "has a name" do
-		inventory = FactoryGirl.create :inventory
-		expect(inventory.name).to_not be nil
+		inventory = build(:inventory, name: nil)
+		expect(inventory).not_to be_valid
 	end
 	it "has an address" do
-		inventory = FactoryGirl.create :inventory
-		expect(inventory.address).to_not be nil
+		inventory = build(:inventory, address: nil)
+		expect(inventory).not_to be_valid
 	end
 	it "has items" do
 		inventory = create :inventory
-		expect{inventory.items << create(:item)
-		inventory.reload}.to change{inventory.items.count}.by(1)
+		holding = create :holding
+		item = create :item
+		expect {
+			holding.item = item
+			inventory.holdings << holding
+	}.to change{inventory.items.count}.by(1)
 	end
 end
