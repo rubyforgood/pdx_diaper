@@ -108,69 +108,7 @@ items_by_category = {
 
 items_by_category.each do |category, entries|
   entries.each do |entry|
-    record = Item.find_or_create_by!(name: entry[:name]) do |item|
-      item.attributes = entry.except(:name)
-    end
+    Item.find_or_create_by!(name: entry[:name]).
+      update_attributes(entry.except(:name).merge(category: category))
   end
-end
-
-Item.find_or_create_by!(name: "Adult Briefs (Large/X-Large)") do |item|
-  item.category = "Diapers - Adult Briefs"
-end
-Item.find_or_create_by!(name: "Adult Briefs (Medium/Large)") do |item|
-  item.category = "Diapers - Adult Briefs"
-end
-Item.find_or_create_by!(name: "Adult Briefs (Small/Medium)") do |item|
-  item.category = "Diapers - Adult Briefs"
-end
-Item.find_or_create_by!(name: "Adult Briefs (XXL)") do |item|
-  item.category = "Diapers - Adult Briefs"
-end
-Item.find_or_create_by!(name: "Adult Cloth Diapers (Large/XL/XXL)") do |item|
-  item.category = "Diapers - Cloth (Adult)"
-end
-Item.find_or_create_by!(name: "Adult Cloth Diapers (Small/Medium)") do |item|
-  item.category = "Diapers - Cloth (Adult)"
-end
-Item.find_or_create_by!(name: "Adult Incontinence Pads") do |item|
-  item.category = "Incontinence Pads - Adult"
-end
-Item.find_or_create_by!(name: "Bed Pads (Cloth)") do |item|
-  item.category = "Misc Supplies"
-end
-Item.find_or_create_by!(name: "Bed Pads (Disposable)") do |item|
-  item.category = "Misc Supplies"
-end
-Item.find_or_create_by!(name: "Bibs (Adult & Child)") do |item|
-  item.category = "Misc Supplies"
-end
-Item.find_or_create_by!(name: "Cloth Diapers (AIO's/Pocket)") do |item|
-  item.category = "Diapers - Cloth (Kids)"
-end
-Item.find_or_create_by!(name: "Cloth Diapers (Covers)") do |item|
-  item.category = "Diapers - Cloth (Kids)"
-end
-Item.find_or_create_by!(name: "Cloth Diapers (Plastic Cover Pants)") do |item|
-  item.category = "Diapers - Childrens"
-end
-Item.find_or_create_by!(name: "Cloth Diapers (Prefolds & Fitted)") do |item|
-  item.category = "Diapers - Cloth (Kids)"
-end
-Item.find_or_create_by!(name: "Cloth Inserts (For Cloth Diapers)") do |item|
-  item.category = "Diapers - Cloth (Kids)"
-end
-Item.find_or_create_by!(name: "Cloth Potty Training Pants/Underwear") do |item|
-  item.category = "Training Pants"
-end
-Item.find_or_create_by!(name: "Cloth Swimmers (Kids)") do |item|
-  item.category = "Diapers - Cloth (Kids)"
-end
-Item.find_or_create_by!(name: "Diaper Rash Cream/Powder") do |item|
-  item.category = "Misc Supplies"
-end
-Item.find_or_create_by!(name: "Disposable Inserts") do |item|
-  item.category = "Diapers - Childrens"
-end
-Item.find_or_create_by!(name: "Kids (Newborn)") do |item|
-  item.category = "Diapers - Childrens"
 end
