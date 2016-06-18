@@ -8,7 +8,7 @@ gem 'rails'
 gem 'dotenv-rails', group: :production
 
 # Dashboard for managing resources
-#gem 'activeadmin', github: 'activeadmin'
+gem 'activeadmin', github: 'activeadmin'
 
 # Use postgres as the database for Active Record
 gem 'pg', group: :production
@@ -16,8 +16,6 @@ gem 'sqlite3', group: [:development, :test]
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
-gem 'bootstrap-sass', '~> 3.3.5'
-gem 'font-awesome-rails'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
