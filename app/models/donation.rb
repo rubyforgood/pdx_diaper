@@ -25,4 +25,8 @@ class Donation < ActiveRecord::Base
   def total_items()
     self.containers.collect{ | c | c.quantity }.reduce(:+)
   end
+
+  def track_from_barcode(barcode_hash)
+    Container.create(itemizable: self, item_id: barcode_hash[:item_id], quantity: barcode_hash[:quantity])
+  end
 end

@@ -53,4 +53,10 @@ RSpec.describe Donation, type: :model do
     assc = described_class.reflect_on_association(:dropoff_location)
     expect(assc.macro).to eq :belongs_to
   end
+
+	it "tracks from a barcode" do
+		donation = create :donation
+		barcode_item = create :barcode_item
+		expect{donation.track_from_barcode(barcode_item.to_container); donation.reload}.to change{donation.containers.count}.by(1)
+	end
 end

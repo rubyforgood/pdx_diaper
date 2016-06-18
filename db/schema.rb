@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 20160618184835) do
 
   create_table "donations", force: :cascade do |t|
     t.string   "source"
-    t.string   "receipt_number"
+    t.boolean  "completed",           default: false
     t.integer  "dropoff_location_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -71,6 +71,8 @@ ActiveRecord::Schema.define(version: 20160618184835) do
     t.integer  "quantity"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "inventory_id"
+    t.integer  "item_id"
   end
 
   create_table "inventories", force: :cascade do |t|

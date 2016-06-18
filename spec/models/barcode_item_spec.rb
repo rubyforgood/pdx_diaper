@@ -37,4 +37,8 @@ RSpec.describe BarcodeItem, type: :model do
       expect(barcode_item).not_to be_valid
     end
   end
+  it "emits a hash for a container" do
+    barcode_item = create :barcode_item
+    expect(barcode_item.to_container).to eq({item_id: barcode_item.item_id, quantity: barcode_item.quantity})
+  end
 end
