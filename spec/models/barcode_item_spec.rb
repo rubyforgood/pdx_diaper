@@ -21,8 +21,4 @@ RSpec.describe BarcodeItem, type: :model do
     bad_barcode = build(:barcode_item, value: barcode_item.value)
     expect(bad_barcode).not_to be_valid
   end
-  it "has one item" do
-    assc = described_class.reflect_on_association(:item)
-    expect(assc.macro).to eq :has_one
-  end
 end

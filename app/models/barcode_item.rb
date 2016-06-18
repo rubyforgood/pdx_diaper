@@ -10,7 +10,7 @@
 #
 
 class BarcodeItem < ActiveRecord::Base
-  has_one :item
+  belongs_to :item
 
   validates :value, presence: true, uniqueness: true
 end
