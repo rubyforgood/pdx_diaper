@@ -16,7 +16,7 @@ permit_params :source, :dropoff_location_id
 sources = ["Diaper Drive", "Purchased Supplies", "Donation Pickup Location"]
 
 form do |f|
-	inputs 'Create new Donation' do
+	inputs 'Create New Donation' do
     input :dropoff_location_id, :label => 'Dropoff Location', :as => :select, :collection => DropoffLocation.all
     input :source, :label => 'Source', :as => :select, :collection => sources
   	actions
