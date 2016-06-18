@@ -12,8 +12,7 @@
 #
 
 class Container < ActiveRecord::Base
-  belongs_to :donation
-  belongs_to :ticket
+  belongs_to :itemizable, polymorphic: true
   belongs_to :item
 
   validates :quantity, presence: true
