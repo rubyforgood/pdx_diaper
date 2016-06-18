@@ -12,5 +12,6 @@
 
 class Item < ActiveRecord::Base
   has_one :container
-  has_one :holding
+  has_many :holdings
+  has_many :inventories, through: :holdings
 end

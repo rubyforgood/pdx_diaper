@@ -59,6 +59,8 @@ ActiveRecord::Schema.define(version: 20160618134414) do
     t.integer  "quantity"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "inventory_id"
+    t.integer  "item_id"
   end
 
   create_table "inventories", force: :cascade do |t|
