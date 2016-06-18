@@ -42,6 +42,16 @@ Partner.find_or_create_by!(name: "NARA Northwest")
 Partner.find_or_create_by!(name: "Job Corps")
 Partner.find_or_create_by!(name: "Helensview Middle and High School")
 
+Inventory.find_or_create_by!(name: "Bulk Storage (Arborscape)") do |inventory|
+  inventory.address = "Unknown"
+end
+Inventory.find_or_create_by!(name: "Diaper Storage Unit") do |inventory|
+  inventory.address = "Unknown"
+end
+Inventory.find_or_create_by!(name: "PDX Diaper Bank (Office)") do |inventory|
+  inventory.address = "Unknown"
+end
+
 items_by_category = {
   "Diapers - Adult Briefs" => [
     { name: "Adult Briefs (Large/X-Large)" },
