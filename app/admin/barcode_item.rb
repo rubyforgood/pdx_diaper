@@ -7,9 +7,20 @@ permit_params :value, :item_id, :quantity
 
 form do |f|
   inputs 'Add New Item' do
-    input :item_id, :label => 'Item Type', :as => :select, :collection => Item.all
-    input :quantity, :label => 'Quantity', :as => 
+    f.input :item_id, :label => 'Item Type', :as => :select, :collection => Item.all
+    f.input :quantity, :label => 'Quantity', :as => :string
+    f.input :value, :label => 'Scan Barcode', :as => :string
+    actions
   end
+end
+
+index do
+  selectable_column
+  column 'ID', :id
+  column 'Item Type', :item_id
+  column :quantity
+  column :value
+  actions
 end
 
 
