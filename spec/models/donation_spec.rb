@@ -31,4 +31,8 @@ RSpec.describe Donation, type: :model do
 		  expect(build(:donation, source: nil)).not_to be_valid
 	  end
   end
+  it "belongs to dropoff location" do
+    assc = described_class.reflect_on_association(:dropoff_location)
+    expect(assc.macro).to eq :belongs_to
+  end
 end
