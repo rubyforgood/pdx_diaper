@@ -35,7 +35,6 @@ RSpec.describe Donation, type: :model do
 		  expect(build(:donation, source: nil)).not_to be_valid
 	  end
   end
-
   it "has many items" do
   	item = create :item
   	d.track(item, 3)
@@ -50,4 +49,8 @@ RSpec.describe Donation, type: :model do
   	expect(d.total_items).to eq(9)
   end
 
+  it "belongs to dropoff location" do
+    assc = described_class.reflect_on_association(:dropoff_location)
+    expect(assc.macro).to eq :belongs_to
+  end
 end

@@ -22,5 +22,11 @@ RSpec.describe DropoffLocation, type: :model do
 	end
 	it "has an array of Donation" do
 		expect(dropoff_location.donations).to eq([])
+
 	end
+	it "has many donations" do
+    assc = described_class.reflect_on_association(:donations)
+    expect(assc.macro).to eq :has_many
+  end
 end
+
