@@ -20,9 +20,14 @@ RSpec.describe Donation, type: :model do
 	it "has a source" do
 		expect(d.source).to_not be nil
 	end
-	it "has a receipt number" do
+	xit "has a receipt number" do
 		expect(d.receipt_number).to_not be nil
 	end
+	it "has a completed flag by default" do
+		expect(d.completed).to be false
+	end
+
+	it ""
   describe "validations >" do
 	  it "doesn't allow location to blank" do
 		  expect(build(:donation, dropoff_location: nil)).not_to be_valid
