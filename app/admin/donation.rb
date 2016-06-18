@@ -32,5 +32,34 @@ index do
   actions
 end
 
-
+  show do
+    attributes_table do
+      row('Receipt Number'){ |d| d.id }
+      row :source
+      row :dropoff_location
+      row :completed
+      row :created_at
+      row :updated_at
+      row "Items" do |donation|
+        link_to 'Create item', "#"
+        donation.items.each do |item|
+          item.name
+        end
+      end
+      div do
+        form_for resource.containers.build, { :url => add_item_donation_path } do |f|
+            f.label :category
+            f.input :category
+            f.label :quantity
+            f.input :quantity
+            f.label :item
+            f.select("item_id", Item.all.collect { |i| [i.name, i.id] } )
+            f.submit
+          end
+        end
+      end
+    end
+  member_action :add_item, method: :post do
+    redirect_to donation_path(params[:id])
+  end
 end
