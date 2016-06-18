@@ -14,6 +14,6 @@ FactoryGirl.define do
 	factory :donation do
 		dropoff_location
 		source "Donation"
-		receipt_number "ABCDEF"
+		completed false
 	end
 end
