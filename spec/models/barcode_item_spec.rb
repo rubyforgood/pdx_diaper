@@ -12,17 +12,29 @@
 require 'rails_helper'
 
 RSpec.describe BarcodeItem, type: :model do
-  it "has a value" do
-    barcode_item = build(:barcode_item, value: nil)
-    expect(barcode_item).not_to be_valid
+  describe "value" do
+    it "is not nil" do
+      barcode_item = build(:barcode_item, value: nil)
+      expect(barcode_item).not_to be_valid
+    end
+    it "has a unique barcode string value" do
+      barcode_item = create :barcode_item
+      bad_barcode = build(:barcode_item, value: barcode_item.value)
+      expect(bad_barcode).not_to be_valid
+    end
   end
-  it "has a unique value" do
-    barcode_item = create :barcode_item
-    bad_barcode = build(:barcode_item, value: barcode_item.value)
-    expect(bad_barcode).not_to be_valid
-  end
-  it "has one item" do
-    assc = described_class.reflect_on_association(:item)
-    expect(assc.macro).to eq :has_one
+  describe "quantity" do
+    it "is not nil" do
+      barcode_item = build(:barcode_item, quantity: nil)
+      expect(barcode_item).not_to be_valid
+    end
+    it "is an integer" do
+      barcode_item = build(:barcode_item, quantity: 'aaa')
+      expect(barcode_item).not_to be_valid
+    end
+    it "is not a negative number" do
+      barcode_item = build(:barcode_item, quantity: -1)
+      expect(barcode_item).not_to be_valid
+    end
   end
 end
