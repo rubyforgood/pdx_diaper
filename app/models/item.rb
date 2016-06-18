@@ -11,5 +11,6 @@
 #
 
 class Item < ActiveRecord::Base
-
+  has_one :container
+  has_one :holding
 end
