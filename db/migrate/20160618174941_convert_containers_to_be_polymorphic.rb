@@ -5,7 +5,7 @@ class ConvertContainersToBePolymorphic < ActiveRecord::Migration
 
     add_index :containers, [:itemizable_id, :itemizable_type]
 
-    remove_column :containers, :donation_id
-    remove_column :containers, :category
+    remove_column :containers, :donation_id, :integer
+    remove_column :containers, :category, :string
   end
 end
