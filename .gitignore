@@ -20,6 +20,7 @@ pdx_db_test
 /log/*.log
 /tmp
 .env
+.byebug_history
 
 # Ignore locally installed bundled gems
 /vendor/bundle

@@ -70,6 +70,7 @@ GEM
       sass (~> 3.4)
       thor (~> 0.19)
     builder (3.2.2)
+    byebug (9.0.5)
     cancancan (1.15.0)
     capistrano (3.5.0)
       airbrussh (>= 1.0.0)
@@ -275,6 +276,7 @@ DEPENDENCIES
   activeadmin!
   annotate
   awesome_print
+  byebug
   cancancan (~> 1.10)
   capistrano-rails
   capistrano-rbenv
