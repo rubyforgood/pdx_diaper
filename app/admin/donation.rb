@@ -12,6 +12,11 @@ ActiveAdmin.register Donation do
 #   permitted << :other if params[:action] == 'create' && current_user.admin?
 #   permitted
 # end
+action_item only: :show do
+  if donation.completed == false
+    link_to "Complete donation", complete_donation_path(donation.id), method: :put
+  end
+end
 permit_params :source, :dropoff_location_id
 sources = ["Diaper Drive", "Purchased Supplies", "Donation Pickup Location"]
 
@@ -75,4 +80,11 @@ end
     donation.track(item,params[:container][:quantity].to_i)
     redirect_to donation_path(params[:id])
   end
+
+  member_action :complete, method: :put do
+    donation = Donation.find(params[:id])
+    donation.complete
+    redirect_to donation_path(params[:id])
+  end
 end
+

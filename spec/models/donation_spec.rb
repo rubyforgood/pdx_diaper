@@ -73,4 +73,8 @@ RSpec.describe Donation, type: :model do
 			expect(d.containers.find_by(item_id: item.id).quantity).to eq(15)
 		end
 	end
+  it "changes donations to be completed" do
+    d.complete
+    expect(d.completed).to be true
+  end
 end
