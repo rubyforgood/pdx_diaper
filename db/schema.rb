@@ -31,6 +31,13 @@ ActiveRecord::Schema.define(version: 20160618153138) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
 
+  create_table "barcode_items", force: :cascade do |t|
+    t.string   "value"
+    t.integer  "item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "containers", force: :cascade do |t|
     t.string   "category"
     t.integer  "quantity"
@@ -42,7 +49,7 @@ ActiveRecord::Schema.define(version: 20160618153138) do
 
   create_table "donations", force: :cascade do |t|
     t.string   "source"
-    t.boolean  "completed",           default: false
+    t.string   "receipt_number"
     t.integer  "dropoff_location_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -61,8 +68,6 @@ ActiveRecord::Schema.define(version: 20160618153138) do
     t.integer  "quantity"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "inventory_id"
-    t.integer  "item_id"
   end
 
   create_table "inventories", force: :cascade do |t|
