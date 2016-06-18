@@ -48,6 +48,7 @@ class Inventory < ActiveRecord::Base
       field_name = item.is_a?(Item) ? :item : :item_id
       result = self.holdings.find_by(field_name => item)
       new_container = ticket.containers.build(field_name => item, quantity: quantity)
+      next if result.nil? || result.quantity == 0
       if result.quantity > quantity
         result.quantity = result.quantity - quantity
       end
