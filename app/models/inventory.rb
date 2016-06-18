@@ -15,4 +15,7 @@ class Inventory < ActiveRecord::Base
 
   validates :name, presence: true
   validates :address, presence: true
+
+  def intake!
+  end
 end

@@ -75,5 +75,6 @@ end
 group :development, :test do
   gem 'awesome_print'
   gem 'byebug'
+  gem 'guard-rspec'
 end
 

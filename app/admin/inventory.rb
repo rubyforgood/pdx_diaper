@@ -1,17 +1,16 @@
 ActiveAdmin.register Inventory do
+  permit_params :name, :address
 
-# See permitted parameters documentation:
-# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-#
-# permit_params :list, :of, :attributes, :on, :model
-#
-# or
-#
-# permit_params do
-#   permitted = [:permitted, :attributes]
-#   permitted << :other if params[:action] == 'create' && current_user.admin?
-#   permitted
-# end
+  show do
+  	@items = Inventory.includes(:holdings).where(id: resource.id).first.items
+    
+    attributes_table do
+    	row :name
+    	row :address
+    end
 
+    panel "Items at this location" do
+    end
 
+  end
 end
