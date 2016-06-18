@@ -13,6 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20160618174941) do
 
+
   create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -97,6 +98,9 @@ ActiveRecord::Schema.define(version: 20160618174941) do
   create_table "tickets", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "partner_id"
   end
+
+  add_index "tickets", ["partner_id"], name: "index_tickets_on_partner_id"
 
 end

@@ -8,7 +8,7 @@
 #
 
 class Ticket < ActiveRecord::Base
-  has_one :partner
+  belongs_to :partner
   has_many :containers, as: :itemizable
   has_many :items, through: :containers
 end
