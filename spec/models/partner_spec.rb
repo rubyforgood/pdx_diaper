@@ -22,4 +22,9 @@ RSpec.describe Partner, type: :model do
     expect(partner.email).to_not be nil
   end
 
+  it "has many tickets" do
+    assc = described_class.reflect_on_association(:tickets)
+    expect(assc.macro).to eq :has_many
+  end
+
 end
