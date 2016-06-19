@@ -15,11 +15,11 @@ ActiveAdmin.register BarcodeItem do
   menu parent: "Inventory", label: "Barcodes"
 
   permit_params :value, :item_id, :quantity
-  
+
   filter :item
   filter :quantity
   filter :created_at
-  
+
   form do |f|
     panel "Instructions" do
       ol do
@@ -35,7 +35,7 @@ ActiveAdmin.register BarcodeItem do
       actions
     end
   end
-  
+
   index do
     selectable_column
     column 'Item Type', :item
