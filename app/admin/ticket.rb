@@ -12,6 +12,10 @@
 ActiveAdmin.register Ticket do
   actions :all, except: [:edit, :update, :destroy]
 
+  action_item :reclaim, only: :show do
+    link_to "Reclaim", reclaim_ticket_path(ticket), method: :put
+  end
+
   permit_params :inventory_id,
     :partner_id,
     :containers_attributes => [:item_id, :quantity, :id, :_destroy]
@@ -46,6 +50,12 @@ ActiveAdmin.register Ticket do
     end
   end
 
+  member_action :reclaim, method: :put do
+    inventory = resource.inventory
+    inventory.reclaim!(resource)
+    redirect_to tickets_path, notice: "Inventory has been updated and the ticket is destroyed"
+  end
+
   index do
     selectable_column
     column :id do |ticket|
@@ -58,6 +68,7 @@ ActiveAdmin.register Ticket do
     end
     column :total_quantity
     column :created_at
+    actions
   end
 
   form do |f|

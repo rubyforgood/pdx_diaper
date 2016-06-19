@@ -69,6 +69,16 @@ class Inventory < ActiveRecord::Base
     update_inventory_holdings(updated_quantities)
   end
 
+  def reclaim!(ticket)
+    ActiveRecord::Base.transaction do
+      ticket.containers.each do |container|
+        holding = self.holdings.find_by(item: container.item)
+        holding.update_attribute(:quantity, holding.quantity + container.quantity)
+      end
+    end
+    ticket.destroy
+  end
+
   def total_inventory
     holdings.sum(:quantity)
   end
