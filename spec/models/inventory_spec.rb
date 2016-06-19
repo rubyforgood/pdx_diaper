@@ -30,8 +30,8 @@ RSpec.describe Inventory, type: :model do
 
 	it "can scope across all inventories by item_id" do
 		item = create(:item)
-		inventory = create(:inventory_with_items, item_quantity: 10, item_id: item.id)
-		inventory2 = create(:inventory_with_items, item_quantity: 10, item_id: item.id)
+		inventory = create(:inventory_with_items, item_quantity: 10, item: item)
+		inventory2 = create(:inventory_with_items, item_quantity: 10, item: item)
 		create(:holding, inventory_id: inventory.id, quantity: 10)
 
 		expect(Inventory.item_total(item.id)).to eq(20)
@@ -49,23 +49,26 @@ RSpec.describe Inventory, type: :model do
 	describe "distribute!" do
 	  it "distrbutes items from inventory" do
 		  inventory = create :inventory_with_items, item_quantity: 300
-		  item = inventory.items.first
-		  result = inventory.distribute!(item => 50)
-		  expect(result).to be_a Ticket
-		  expect(result.containers.first.item).to eq item
-		  expect(result.containers.first.quantity).to eq 50 
+                  ticket = build :ticket_with_items, inventory: inventory, item_quantity: 50
+		  inventory.distribute!(ticket)
+		  expect(inventory.holdings.first.quantity).to eq 250
 	  end
-  
-	  it "does not distribute if insufficient inventory" do
+
+          it "raises error when ticket exceeds inventory" do
 		  inventory = create :inventory_with_items, item_quantity: 300
-		  item = inventory.items.first
-		  result = inventory.distribute!(item => 350)
-		  expect(result).to be_a Ticket
-		  expect(result).not_to be_valid
-		  expect(result.containers.first.item).to eq item
-		  expect(result.containers.first.quantity).to eq 300
-		  expect(result.errors).to include :inventory
-		  expect(result.errors[:inventory]).to include "Adjusted quantity of #{item.name} to match available inventory of 300" 
+                  ticket = build :ticket_with_items, inventory: inventory, item_quantity: 350
+                  item = ticket.containers.first.item
+                  expect {
+                    inventory.distribute!(ticket)
+                  }.to raise_error { |error|
+                    expect(error).to be_a Errors::InsufficientAllotment
+                    expect(error.insufficient_items).to include({
+                      item_id: item.id,
+                      item_name: item.name,
+                      quantity_on_hand: 300,
+                      quantity_requested: 350
+                    })
+                  }
 	  end
     end
 
@@ -83,9 +86,9 @@ RSpec.describe Inventory, type: :model do
 
       it "adds items to the inventory total if that item already exists in inventory" do
       	inventory = create(:inventory_with_items, item_quantity: 10)
-      	donation = create(:donation, :with_item, item_quantity: 10, item_id: inventory.holdings.first.item_id)
+      	donation = create(:donation, :with_item, item_quantity: 10, item: inventory.holdings.first.item)
 		inventory.intake!(donation)
-		
+
 		expect(inventory.holdings.count).to eq(1)
 		expect(inventory.holdings.where(item_id: donation.containers.first.item.id).first.quantity).to eq(20)
 

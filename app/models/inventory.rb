@@ -17,7 +17,7 @@ class Inventory < ActiveRecord::Base
   validates :name, presence: true
   validates :address, presence: true
 
-  def self.item_total(item_id) 
+  def self.item_total(item_id)
   	Inventory.select('quantity').joins(:holdings).where('holdings.item_id = ?', item_id).collect { |h| h.quantity }.reduce(:+)
   end
 
@@ -42,21 +42,45 @@ class Inventory < ActiveRecord::Base
   	log
   end
 
-  def distribute!(items)
-    ticket = Ticket.new(inventory: self)
-    items.each do |item, quantity|
-      field_name = item.is_a?(Item) ? :item : :item_id
-      result = self.holdings.find_by(field_name => item)
-      new_container = ticket.containers.build(field_name => item, quantity: quantity)
-      next if result.nil? || result.quantity == 0
-      if result.quantity > quantity
-        result.quantity = result.quantity - quantity
+  def distribute!(ticket)
+    updated_quantities = {}
+    insufficient_items = []
+    ticket.containers.each do |container|
+      holding = self.holdings.find_by(item: container.item)
+      next if holding.nil? || holding.quantity == 0
+      if holding.quantity >= container.quantity
+        updated_quantities[holding.id] = holding.quantity - container.quantity
+      else
+        insufficient_items << {
+          item_id: container.item.id,
+          item_name: container.item.name,
+          quantity_on_hand: holding.quantity,
+          quantity_requested: container.quantity
+        }
       end
     end
-    ticket
+
+    unless insufficient_items.empty?
+      raise Errors::InsufficientAllotment.new(
+        "Ticket containers exceed the available inventory",
+        insufficient_items)
+    end
+
+    update_inventory_holdings(updated_quantities)
   end
 
   def total_inventory
     holdings.sum(:quantity)
   end
+
+  private
+
+  def update_inventory_holdings(records)
+    ActiveRecord::Base.transaction do
+      records.each do |holding_id, quantity|
+        Holding.find(holding_id).update_attribute("quantity", quantity)
+      end
+    end
+  end
+
 end

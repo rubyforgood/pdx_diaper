@@ -18,24 +18,24 @@ class Ticket < ActiveRecord::Base
   belongs_to :partner
 
   # Tickets contain many different items
-  has_many :containers, as: :itemizable
+  has_many :containers, as: :itemizable, inverse_of: :itemizable
   has_many :items, through: :containers
   accepts_nested_attributes_for :containers, allow_destroy: true
 
   validates :inventory, :partner, presence: true
-  validate :containers_do_not_exceed_inventory
+  validate :containers_exist_in_inventory
+
+  def total_quantity
+    containers.sum(:quantity)
+  end
 
   private
 
-  def containers_do_not_exceed_inventory
+  def containers_exist_in_inventory
     self.containers.each do |container|
       holding = self.inventory.holdings.find_by(item: container.item)
-      if holding.nil? || holding.quantity == 0
+      if holding.nil?
         errors.add(:inventory, "#{container.item.name} is not available at this storage location")
-        container.quantity = 0
-      elsif holding.quantity < container.quantity
-        container.quantity = holding.quantity
-        errors.add(:inventory, "Adjusted quantity of #{container.item.name} to match available inventory of #{holding.quantity}")
       end
     end
   end

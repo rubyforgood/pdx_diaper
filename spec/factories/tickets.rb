@@ -10,20 +10,34 @@
 #
 
 FactoryGirl.define do
-
   factory :ticket do
     inventory
     partner
 
-    transient do
-    	item_quantity 10
-    	item_id nil
-    end
-
     factory :ticket_with_items do
+      association :inventory, factory: :inventory_with_items
+
+      transient do
+        item_quantity 100
+        item nil
+      end
+
+      after(:build) do |ticket, evaluator|
+        item = if evaluator.item.nil?
+                 ticket.inventory.holdings.first.item
+               else
+                 evaluator.item
+               end
+        ticket.containers << build(:container, quantity: evaluator.item_quantity, item: item)
+      end
+
       after(:create) do |ticket, evaluator|
-      	item_id = (evaluator.item_id.nil?) ? create(:item).id : evaluator.item_id
-        create_list(:container, 1, itemizable: ticket, quantity: evaluator.item_quantity, item_id: item_id)
+        item = if evaluator.item.nil?
+                 ticket.inventory.holdings.first.item
+               else
+                 evaluator.item
+               end
+        create_list(:container, 1, itemizable: ticket, quantity: evaluator.item_quantity, item: item)
       end
     end
   end

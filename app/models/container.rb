@@ -12,10 +12,9 @@
 #
 
 class Container < ActiveRecord::Base
-  belongs_to :itemizable, polymorphic: true
+  belongs_to :itemizable, polymorphic: true, inverse_of: :containers, required: true
   belongs_to :item
 
   validates :item_id, presence: true
-  validates :itemizable_id, presence: true
   validates :quantity, presence: true
 end
