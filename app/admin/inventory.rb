@@ -20,7 +20,9 @@ ActiveAdmin.register Inventory do
   filter :address
   filter :items, label: "Locations that have"
   filter :created_at
- 
+
+  config.sort_order = "name_asc"
+
   index do
     selectable_column
     column :name do |inventory|
@@ -34,7 +36,7 @@ ActiveAdmin.register Inventory do
   end
 
   show do
-    
+
     attribute, direction = params[:order].try(:split,"_") || [nil,nil]
 
     @inventory = Inventory.includes(:holdings => :item).order("#{attribute} #{direction}").find(resource.id)

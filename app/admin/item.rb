@@ -13,7 +13,7 @@
 
 ActiveAdmin.register Item do
 
-  menu parent: "Inventory", label: "Item types"
+  menu parent: "Inventory", label: "Item Types"
 
   permit_params :name, :category, :size, :barcode_items_attributes => [:id, :item_id, :quantity, :value]
 
@@ -22,13 +22,15 @@ ActiveAdmin.register Item do
   filter :category, as: :select
   filter :created_at
 
+  config.sort_order = "name_asc"
+
   index do
     selectable_column
     column :name
     column :category
     column "Barcode Entries" do |i|
       entries = BarcodeItem.where(item_id: i).count
-      link_to_unless(entries == 0, entries, barcode_items_path(utf8:"✓", "q[item_id_eq]": i, item_id_eq: i, commit: "Filter", order: "id_desc"))
+      link_to_unless(entries == 0, entries, barcode_items_path("q[item_id_eq]": i, item_id_eq: i))
     end
     actions
   end
