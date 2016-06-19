@@ -10,13 +10,7 @@
 require "rails_helper"
 
 RSpec.describe Ticket, type: :model do
-  it "has one partner" do
-    assc = described_class.reflect_on_association(:partner)
-    expect(assc.macro).to eq :has_one
-  end
-
-  it "has many items through container" do
-    assc = described_class.reflect_on_association(:items)
-    expect(assc.macro).to eq :has_many
+  it "is invalid if it tries to issue more product than what is on-hand" do
+  	create(:ticket_with_items)
   end
 end

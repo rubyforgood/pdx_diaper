@@ -8,8 +8,14 @@
 #
 
 class Ticket < ActiveRecord::Base
+
+  # Tickets are issued from a single inventory, so we associate them so that on-hand amounts can be verified
   belongs_to :inventory
+
+  # Tickets are issued to a single partner
   belongs_to :partner
+
+  # Tickets contain many different items
   has_many :containers, as: :itemizable
   has_many :items, through: :containers
   accepts_nested_attributes_for :containers, allow_destroy: true
