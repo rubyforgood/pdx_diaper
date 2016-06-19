@@ -1,23 +1,45 @@
+# == Schema Information
+#
+# Table name: donations
+#
+#  id                  :integer          not null, primary key
+#  source              :string
+#  completed           :boolean          default(FALSE)
+#  dropoff_location_id :integer
+#  created_at          :datetime
+#  updated_at          :datetime
+#
+# modified 18 june 2016
+
 ActiveAdmin.register Donation do
 
-# See permitted parameters documentation:
-# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-#
-# permit_params :list, :of, :attributes, :on, :model
-#
-# or
-#
-# permit_params do
-#   permitted = [:permitted, :attributes]
-#   permitted << :other if params[:action] == 'create' && current_user.admin?
-#   permitted
-# end
+  permit_params :source, :dropoff_location_id, :containers_attributes => [:item_id, :quantity, :id, :_destroy]
+
+  member_action :add_item, method: :post do
+    donation=Donation.find(params[:id])
+    item=Item.find(params[:container][:item_id])
+    donation.track(item,params[:container][:quantity].to_i)
+    redirect_to donation_path(params[:id])
+  end  
+
+  member_action :complete, method: :put do
+    donation = Donation.find(params[:id])
+    donation.complete
+    redirect_to donation_path(params[:id])
+  end  
+  
+  member_action :destroy_item, method: :put do
+    container = Container.find(params[:container_id]).delete
+    redirect_to donation_path(params[:donation_id])
+  end
+
+
 action_item only: :show do
   if donation.completed == false
     link_to "Complete donation", complete_donation_path(donation.id), method: :put
   end
 end
-permit_params :source, :dropoff_location_id, :containers_attributes => [:item_id, :quantity, :id, :_destroy]
+
 sources = ["Diaper Drive", "Purchased Supplies", "Donation Pickup Location"]
 
 form do |f|
@@ -77,22 +99,5 @@ end
         end
       end
     end
-  member_action :add_item, method: :post do
-    donation=Donation.find(params[:id])
-    item=Item.find(params[:container][:item_id])
-    donation.track(item,params[:container][:quantity].to_i)
-    redirect_to donation_path(params[:id])
-  end
-
-  member_action :complete, method: :put do
-    donation = Donation.find(params[:id])
-    donation.complete
-    redirect_to donation_path(params[:id])
-  end
-
-  member_action :destroy_item, method: :put do
-    container = Container.find(params[:container_id]).delete
-    redirect_to donation_path(params[:donation_id])
-  end
 end
 

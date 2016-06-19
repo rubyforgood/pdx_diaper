@@ -1,17 +1,17 @@
-ActiveAdmin.register Ticket do
+# == Schema Information
+#
+# Table name: tickets
+#
+#  id         :integer          not null, primary key
+#  created_at :datetime
+#  updated_at :datetime
+#
+# (modified 18 June 2016)
 
-# See permitted parameters documentation:
-# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-#
-permit_params :partner_id, :containers_attributes => [:item_id, :quantity, :id, :_destroy]
-#
-# or
-#
-# permit_params do
-#   permitted = [:permitted, :attributes]
-#   permitted << :other if params[:action] == 'create' && current_user.admin?
-#   permitted
-# end
+
+ActiveAdmin.register Ticket do  
+
+  permit_params :partner_id, :containers_attributes => [:item_id, :quantity, :id, :_destroy]
 
   controller do
     def create

@@ -1,17 +1,26 @@
+# == Schema Information
+#
+# Table name: partners
+#
+#  id         :integer          not null, primary key
+#  name       :string
+#  email      :string
+#  created_at :datetime
+#  updated_at :datetime
+#
+# (manually added 18 June 2016)
+
 ActiveAdmin.register Partner do
 
-# See permitted parameters documentation:
-# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-#
-# permit_params :list, :of, :attributes, :on, :model
-#
-# or
-#
-# permit_params do
-#   permitted = [:permitted, :attributes]
-#   permitted << :other if params[:action] == 'create' && current_user.admin?
-#   permitted
-# end
+  menu parent: "Address Book", label: "Partner Organizations"
 
+  permit_params :name, :email
+
+  index do
+  	selectable_column
+  	column :name, sortable: :name
+  	column :email, sortable: :email
+  	actions
+  end
 
 end

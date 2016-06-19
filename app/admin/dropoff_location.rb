@@ -1,17 +1,26 @@
+# == Schema Information
+#
+# Table name: dropoff_locations
+#
+#  id         :integer          not null, primary key
+#  name       :string
+#  address    :string
+#  created_at :datetime
+#  updated_at :datetime
+#
+# (modified 18 June 2016)
+
 ActiveAdmin.register DropoffLocation do
 
-# See permitted parameters documentation:
-# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-#
-# permit_params :list, :of, :attributes, :on, :model
-#
-# or
-#
-# permit_params do
-#   permitted = [:permitted, :attributes]
-#   permitted << :other if params[:action] == 'create' && current_user.admin?
-#   permitted
-# end
+  menu parent: "Address Book", label: "Drop-off Locations"
 
+  permit_params :name, :address
+
+  index do
+  	selectable_column
+  	column :name, sortable: :name
+  	column :address, sortable: :address
+  	actions
+  end
 
 end

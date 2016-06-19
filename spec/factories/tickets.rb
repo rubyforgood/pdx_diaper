@@ -2,11 +2,12 @@
 #
 # Table name: tickets
 #
-#  id         :integer          not null, primary key
-#  created_at :datetime
-#  updated_at :datetime
+#  id           :integer          not null, primary key
+#  created_at   :datetime
+#  updated_at   :datetime
+#  partner_id   :integer
+#  inventory_id :integer
 #
-
 
 FactoryGirl.define do
 

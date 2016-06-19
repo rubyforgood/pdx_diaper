@@ -7,6 +7,7 @@
 #  item_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  quantity   :integer
 #
 
 require 'rails_helper'
@@ -22,6 +23,9 @@ RSpec.describe BarcodeItem, type: :model do
       bad_barcode = build(:barcode_item, value: barcode_item.value)
       expect(bad_barcode).not_to be_valid
     end
+  end
+  it "is invalid without an item associated with it" do
+    expect(build(:barcode_item, item: nil)).not_to be_valid
   end
   describe "quantity" do
     it "is not nil" do

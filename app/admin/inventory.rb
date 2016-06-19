@@ -1,6 +1,26 @@
+# == Schema Information
+#
+# Table name: inventories
+#
+#  id         :integer          not null, primary key
+#  name       :string
+#  address    :string
+#  created_at :datetime
+#  updated_at :datetime
+#
+# (modified 18 June 2016)
+
 ActiveAdmin.register Inventory do
+
+  menu parent: "Inventory", label: "Storage Locations"
+
   permit_params :name, :address
 
+  filter :name
+  filter :address
+  filter :items, label: "Locations that have"
+  filter :created_at
+ 
   index do
     selectable_column
     column :name do |inventory|
@@ -8,15 +28,16 @@ ActiveAdmin.register Inventory do
     end
     column :address
     column :total_inventory do |inventory|
-      "#{inventory.total_inventory} diapers"
+      "#{inventory.total_inventory} items"
     end
-    column :created_at
-    column :updated_at
     actions
   end
 
   show do
-    @items = Inventory.includes(:holdings).where(id: resource.id).first.items
+    
+    attribute, direction = params[:order].try(:split,"_") || [nil,nil]
+
+    @inventory = Inventory.includes(:holdings => :item).order("#{attribute} #{direction}").find(resource.id)
 
     attributes_table do
       row :name
@@ -24,11 +45,11 @@ ActiveAdmin.register Inventory do
     end
 
     panel "Items at this location" do
-      table_for inventory.holdings do
-        column "Item" do |holding|
+      table_for @inventory.holdings, sortable: true do
+        column "Item", sortable: "items.name" do |holding|
           link_to holding.item.name, holding.item
         end
-        column :quantity
+        column :quantity, sortable: "holdings.quantity"
       end
     end
   end

@@ -4,7 +4,7 @@
 #
 #  id                  :integer          not null, primary key
 #  source              :string
-#  receipt_number      :string
+#  completed           :boolean          default(FALSE)
 #  dropoff_location_id :integer
 #  created_at          :datetime
 #  updated_at          :datetime

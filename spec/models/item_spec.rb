@@ -5,7 +5,6 @@
 #  id         :integer          not null, primary key
 #  name       :string
 #  category   :string
-#  size       :string
 #  created_at :datetime
 #  updated_at :datetime
 #
@@ -21,11 +20,6 @@ RSpec.describe Item, type: :model do
   it "has a category" do
     item = Item.create(category: "disposable")
     expect(item.category).to_not be nil
-  end
-
-  it "has a size" do
-    item = Item.create(size: "small")
-    expect(item.size).to_not be nil
   end
 
   it "has many containers" do
