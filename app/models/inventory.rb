@@ -41,7 +41,7 @@ class Inventory < ActiveRecord::Base
   	end
   	log
   end
-  
+
   def distribute!(items)
     ticket = Ticket.new(inventory: self)
     items.each do |item, quantity|
@@ -54,5 +54,9 @@ class Inventory < ActiveRecord::Base
       end
     end
     ticket
+  end
+
+  def total_inventory
+    holdings.sum(:quantity)
   end
 end
