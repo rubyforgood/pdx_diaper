@@ -17,11 +17,6 @@ RSpec.describe Item, type: :model do
     expect(item.name).to_not be nil
   end
 
-  it "has a category" do
-    item = Item.create(category: "disposable")
-    expect(item.category).to_not be nil
-  end
-
   it "has many containers" do
     assc = described_class.reflect_on_association(:containers)
     expect(assc.macro).to eq :has_many

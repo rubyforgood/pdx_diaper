@@ -20,14 +20,14 @@ ActiveAdmin.register Donation do
     item=Item.find(params[:container][:item_id])
     donation.track(item,params[:container][:quantity].to_i)
     redirect_to donation_path(params[:id])
-  end  
+  end
 
   member_action :complete, method: :put do
     donation = Donation.find(params[:id])
     donation.complete
     redirect_to donation_path(params[:id])
-  end  
-  
+  end
+
   member_action :destroy_item, method: :put do
     container = Container.find(params[:container_id]).delete
     redirect_to donation_path(params[:donation_id])
@@ -69,9 +69,8 @@ end
       row :updated_at
       row "Items" do |donation|
         if donation.containers.count > 0
-          table_for resource.containers do 
+          table_for resource.containers do
               column :quantity
-              column :category
               column :item
               column(:delete) { |container| link_to "Delete", destroy_item_donation_path(container_id: container.id, donation_id: resource.id), method: :put }
           end
@@ -82,10 +81,6 @@ end
     unless donation.completed == true
       panel "Add Item" do
         form_for :container, { :url => add_item_donation_path } do |f|
-          div do
-            f.label :category
-            f.text_field :category
-          end
           div do
             f.label :quantity
             f.text_field :quantity
