@@ -2,16 +2,21 @@ ActiveAdmin.register_page "Dashboard" do
 
   menu priority: 1, label: proc{ I18n.t("active_admin.dashboard") }
 
+  page_action :update_metrics, method: :post do
+    redirect_to root_path(:start_date => params[:event][:starts_at], :end_date => params[:event][:ends_at])
+  end
+
   sidebar :options do
-      form_for :date, { :url => "#" } do |f|
+      form_for :event, { :url => dashboard_update_metrics_path } do |f|
         div do
           f.label :starts_at
-          f.input :starts_at, :as => :datepicker, :class => "datepicker hasDatetimePicker", :value  => (Date.today - 1.year).strftime('%Y-%m-%d')
+          f.text_field :starts_at, :as => :datepicker, :class => "datepicker hasDatetimePicker dashboardDatePicker", :value  => (default_start_date).strftime('%Y-%m-%d')
         end
         div do
           f.label :ends_at
-          f.input :ends_at, :as => :datepicker, :class => "datepicker hasDatetimePicker", :value  => Date.today.strftime('%Y-%m-%d')
+          f.text_field :ends_at, :as => :datepicker, :class => "datepicker hasDatetimePicker dashboardDatePicker", :value  => default_end_date.strftime('%Y-%m-%d')
         end
+        f.submit "Update Date Range"
       end
     end
 
@@ -25,25 +30,19 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
      column do
-        panel "Quick Summary" do
+        panel "Donation Totals" do
           para do
-            h3 "Donation Totals"
-            h5 "Totals By Source:" 
-            ul do
-              li "Diaper Drive: #{diaper_totals_by_source('Diaper Drive')}"
-              li "Purchased Supplies: #{diaper_totals_by_source('Purchased Supplies')}"
-              li "Donation Pickup Location: #{diaper_totals_by_source('Donation Pickup Location')}"
+            if !params[:start_date].blank?
+              start = Date.strptime(params[:start_date], "%Y-%m-%d")
             end
-            h5 "Totals By Location:" 
-            ul do
-              totals = dropoff_totals
-              totals.each do |key, value|
-                li "#{key}: #{value}"
-              end
+            if !params[:end_date].blank?
+              date_end = Date.strptime(params[:end_date], "%Y-%m-%d")
             end
-            h3 "Ticket Totals"
-
+            render partial: 'donation_stats', :locals => {:start_date => start, :end_date => date_end, :dropoffs => dropoff_totals(start, date_end) }
           end
+        end
+        panel "Ticket Totals" do
+          h3 "Ticket Totals"
         end
       end
     end
