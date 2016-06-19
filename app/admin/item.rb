@@ -13,7 +13,7 @@
 
 ActiveAdmin.register Item do
 
-  menu parent: "Inventory", label: "Item types"
+  menu parent: "Inventory", label: "Item Types"
 
   permit_params :name, :category, :size, :barcode_items_attributes => [:id, :item_id, :quantity, :value]
 
