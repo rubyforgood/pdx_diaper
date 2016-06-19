@@ -11,13 +11,14 @@
 
 class Inventory < ActiveRecord::Base
   has_many :holdings
+  has_many :donations
   has_many :tickets
   has_many :items, through: :holdings
 
   validates :name, presence: true
   validates :address, presence: true
 
-  def self.item_total(item_id) 
+  def self.item_total(item_id)
   	Inventory.select('quantity').joins(:holdings).where('holdings.item_id = ?', item_id).collect { |h| h.quantity }.reduce(:+)
   end
 
