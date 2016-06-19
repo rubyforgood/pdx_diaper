@@ -15,7 +15,7 @@ FactoryGirl.define do
     address "1500 Remount Road, Front Royal, VA"
 
     transient do
-    	item_quantity 1
+    	item_quantity 50
     	item_id nil
     end
 
