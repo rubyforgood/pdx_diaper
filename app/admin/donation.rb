@@ -17,7 +17,7 @@ action_item only: :show do
     link_to "Complete donation", complete_donation_path(donation.id), method: :put
   end
 end
-permit_params :source, :dropoff_location_id
+permit_params :source, :dropoff_location_id, :containers_attributes => [:item_id, :quantity, :id, :_destroy]
 sources = ["Diaper Drive", "Purchased Supplies", "Donation Pickup Location"]
 
 form do |f|
@@ -46,11 +46,12 @@ end
       row :created_at
       row :updated_at
       row "Items" do |donation|
-        donation.containers.each do |c|
-          attributes_table_for c do
-            row :quantity
-            row :category
-            row :item
+        if donation.containers.count > 0
+          table_for resource.containers do 
+              column :quantity
+              column :category
+              column :item
+              column(:delete) { |container| link_to "Delete", destroy_item_donation_path(container_id: container.id, donation_id: resource.id), method: :put }
           end
         end
         nil
@@ -85,6 +86,11 @@ end
     donation = Donation.find(params[:id])
     donation.complete
     redirect_to donation_path(params[:id])
+  end
+
+  member_action :destroy_item, method: :put do
+    container = Container.find(params[:container_id]).delete
+    redirect_to donation_path(params[:donation_id])
   end
 end
 
