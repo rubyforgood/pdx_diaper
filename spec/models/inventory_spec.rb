@@ -85,4 +85,13 @@ RSpec.describe Inventory, type: :model do
 
 	  end
     end
+
+  describe "reclaim!" do
+    it "adds ticket items back to inventory" do
+      inventory = create :inventory_with_items, item_quantity: 300
+      ticket = create :ticket_with_items, inventory: inventory, item_quantity: 50
+      inventory.reclaim!(ticket)
+      expect(inventory.holdings.first.quantity).to eq 350
+    end
+  end
 end
