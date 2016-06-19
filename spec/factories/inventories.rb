@@ -14,15 +14,16 @@ FactoryGirl.define do
     name "Smithsonian Institute"
     address "1500 Remount Road, Front Royal, VA"
 
-    transient do
-    	item_quantity 50
-    	item_id nil
-    end
-
     factory :inventory_with_items do
+      transient do
+        item_quantity 100
+        item nil
+      end
+
       after(:create) do |inventory, evaluator|
-      	item_id = (evaluator.item_id.nil?) ? create(:item).id : evaluator.item_id
-        create_list(:holding, 1, inventory: inventory, quantity: evaluator.item_quantity, item_id: item_id)
+        item = (evaluator.item.nil?) ? create(:item) : evaluator.item
+        item.save if item.new_record?
+        create_list(:holding, 1, inventory: inventory, quantity: evaluator.item_quantity, item: item)
       end
     end
   end

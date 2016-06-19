@@ -12,7 +12,7 @@
 
 class Donation < ActiveRecord::Base
   belongs_to :dropoff_location
-  has_many :containers, as: :itemizable
+  has_many :containers, as: :itemizable, inverse_of: :itemizable
   has_many :items, through: :containers
 
   validates :dropoff_location, presence: true
