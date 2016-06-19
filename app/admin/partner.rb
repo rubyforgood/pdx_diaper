@@ -12,7 +12,7 @@
 
 ActiveAdmin.register Partner do
 
-  menu parent: "Address Book", label: "Partner Organizations"
+  menu parent: "Address Book", priority: 11, label: "Partner Organizations"
 
   permit_params :name, :email
 

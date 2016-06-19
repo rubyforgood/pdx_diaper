@@ -12,7 +12,7 @@
 
 ActiveAdmin.register DropoffLocation do
 
-  menu parent: "Address Book", label: "Drop-off Locations"
+  menu parent: "Address Book", priority: 11, label: "Drop-off Locations"
 
   permit_params :name, :address
 
