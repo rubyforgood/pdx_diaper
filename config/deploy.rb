@@ -15,5 +15,3 @@ set :format, :pretty
 
 set :linked_files, fetch(:linked_files, []).push('.env')
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'vendor/bundle', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system')
-
-set :format_options, command_output: true, log_file: 'log/capistrano.log', color: :auto, truncate: :auto
