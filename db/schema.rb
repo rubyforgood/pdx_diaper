@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160619151226) do
+ActiveRecord::Schema.define(version: 20160619160404) do
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -56,9 +56,11 @@ ActiveRecord::Schema.define(version: 20160619151226) do
     t.integer  "dropoff_location_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "inventory_id"
   end
 
   add_index "donations", ["dropoff_location_id"], name: "index_donations_on_dropoff_location_id"
+  add_index "donations", ["inventory_id"], name: "index_donations_on_inventory_id"
 
   create_table "dropoff_locations", force: :cascade do |t|
     t.string   "name"

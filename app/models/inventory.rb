@@ -11,6 +11,7 @@
 
 class Inventory < ActiveRecord::Base
   has_many :holdings
+  has_many :donations
   has_many :tickets
   has_many :items, through: :holdings
 

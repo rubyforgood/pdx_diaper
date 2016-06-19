@@ -13,7 +13,7 @@
 
 ActiveAdmin.register Donation do
 
-  permit_params :source, :dropoff_location_id, :containers_attributes => [:item_id, :quantity, :id, :_destroy]
+  permit_params :source, :dropoff_location_id, :inventory_id, :containers_attributes => [:item_id, :quantity, :id, :_destroy]
 
   member_action :add_item, method: :post do
     donation=Donation.find(params[:id])
@@ -58,6 +58,7 @@ form do |f|
 	inputs 'Create New Donation' do
     input :dropoff_location_id, :label => 'Dropoff Location', :as => :select, :collection => DropoffLocation.all
     input :source, :label => 'Source', :as => :select, :collection => sources
+    input :inventory_id, :label => 'Storage Location', :as => :select, :collection => Inventory.all
   	actions
   end
 end
@@ -80,6 +81,9 @@ end
       row('Receipt Number'){ |d| d.id }
       row :source
       row :dropoff_location
+      row "Storage Location" do
+        resource.inventory.name
+      end
       row :completed
       row :created_at
       row :updated_at
