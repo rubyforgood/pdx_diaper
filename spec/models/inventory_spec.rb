@@ -37,15 +37,6 @@ RSpec.describe Inventory, type: :model do
 		expect(Inventory.item_total(item.id)).to eq(20)
 	end
 
-	it "subtracts items from the database once they are in a finished ticket" do
-		inventory = create :inventory_with_items
-		item = inventory.items.first
-		result = inventory.distribute!(item => 50)
-		expect(result).to be_a Ticket
-		expect(result.containers.first.item).to eq item
-		expect(inventory.holdings.first.quantity).to eq 0
-	end
-
 	describe "distribute!" do
 	  it "distrbutes items from inventory" do
 		  inventory = create :inventory_with_items, item_quantity: 300
@@ -86,7 +77,7 @@ RSpec.describe Inventory, type: :model do
 
       it "adds items to the inventory total if that item already exists in inventory" do
       	inventory = create(:inventory_with_items, item_quantity: 10)
-      	donation = create(:donation, :with_item, item_quantity: 10, item: inventory.holdings.first.item)
+        donation = create(:donation, :with_item, item_quantity: 10, item_id: inventory.holdings.first.item.id)
 		inventory.intake!(donation)
 
 		expect(inventory.holdings.count).to eq(1)
