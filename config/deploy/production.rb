@@ -68,8 +68,22 @@ set :pty, true
 
 
 namespace :deploy do
+  task :start do
+    on roles(:app) do
+      invoke 'unicorn:start'
+    end
+  end
+
   task :restart do
-	# run "touch #{File.join(current_path, 'tmp', 'restart.txt') }"
+    on roles(:app) do
+      invoke 'unicorn:restart'
+    end
+  end
+
+  task :stop do
+    on roles(:app) do
+      invoke 'unicron:stop'
+    end
   end
 
   after :restart, :clear_cache do
