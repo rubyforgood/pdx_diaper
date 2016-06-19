@@ -1,0 +1,19 @@
+<h3><%= "Donation Totals for #{start_date} - #{end_date}" %></h3>
+<h5>Totals By Source:</h5>
+<ul>
+ <% if start_date.blank? || end_date.blank? %>
+   <li><%= "Diaper Drive: #{diaper_totals_by_source('Diaper Drive')}" %></li>
+   <li><%= "Purchased Supplies: #{diaper_totals_by_source('Purchased Supplies')}" %></li>
+   <li><%= "Donation Pickup Location: #{diaper_totals_by_source('Donation Pickup Location')}" %></li>
+ <% else %>
+   <li><%= "Diaper Drive: #{diaper_totals_by_source('Diaper Drive', start_date, end_date)}" %></li>
+   <li><%= "Purchased Supplies: #{diaper_totals_by_source('Purchased Supplies', start_date, end_date)}" %></li>
+   <li><%= "Donation Pickup Location: #{diaper_totals_by_source('Donation Pickup Location', start_date, end_date)}" %></li>
+ <% end %>
+</ul>
+<h5>Totals By Location:</h5>
+<ul>
+	<% dropoffs.each do |key, value| %>
+		<li><%= "#{key}: #{value}" %></li>
+	<% end %>
+</ul>

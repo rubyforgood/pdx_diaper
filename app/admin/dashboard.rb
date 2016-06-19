@@ -2,6 +2,24 @@ ActiveAdmin.register_page "Dashboard" do
 
   menu priority: 1, label: proc{ I18n.t("active_admin.dashboard") }
 
+  page_action :update_metrics, method: :post do
+    redirect_to root_path(:start_date => params[:event][:starts_at], :end_date => params[:event][:ends_at])
+  end
+
+  sidebar :options do
+      form_for :event, { :url => dashboard_update_metrics_path } do |f|
+        div do
+          f.label :starts_at
+          f.text_field :starts_at, :as => :datepicker, :class => "datepicker hasDatetimePicker dashboardDatePicker", :value  => (default_start_date).strftime('%Y-%m-%d')
+        end
+        div do
+          f.label :ends_at
+          f.text_field :ends_at, :as => :datepicker, :class => "datepicker hasDatetimePicker dashboardDatePicker", :value  => default_end_date.strftime('%Y-%m-%d')
+        end
+        f.submit "Update Date Range"
+      end
+    end
+
   content title: proc{ I18n.t("active_admin.dashboard") } do
     columns do
       column do
@@ -12,8 +30,19 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
      column do
-        panel "Info" do
-          para "Welcome to ActiveAdmin."
+        panel "Donation Totals" do
+          para do
+            if !params[:start_date].blank?
+              start = Date.strptime(params[:start_date], "%Y-%m-%d")
+            end
+            if !params[:end_date].blank?
+              date_end = Date.strptime(params[:end_date], "%Y-%m-%d")
+            end
+            render partial: 'donation_stats', :locals => {:start_date => start, :end_date => date_end, :dropoffs => dropoff_totals(start, date_end) }
+          end
+        end
+        panel "Ticket Totals" do
+          h3 "Ticket Totals"
         end
       end
     end
