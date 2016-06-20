@@ -15,6 +15,14 @@ ActiveAdmin.register Donation do
 
   permit_params :source, :dropoff_location_id, :inventory_id, :containers_attributes => [:item_id, :quantity, :id, :_destroy]
 
+  filter :dropoff_location
+  filter :items, label: "Donations containing this item"
+  filter :source, as: :select
+  filter :created_at, label: "Donations created between"
+
+  scope :completed
+  scope :incomplete
+
   member_action :add_item, method: :post do
     donation=Donation.find(params[:id])
     item=Item.find(params[:container][:item_id])

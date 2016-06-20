@@ -23,10 +23,22 @@ ActiveAdmin.register_page "Dashboard" do
   content title: proc{ I18n.t("active_admin.dashboard") } do
     columns do
       column do
+        inventories = Inventory.all.collect { |i| i.name }
+        all_items = {}
+        
+        # 
+        Holding.includes(:inventory).includes(:item).all.each do |h|
+          all_items[h.item.name] ||= {}
+          all_items[h.item.name][h.inventory.name] = h.quantity
+        end
+        sorted_items = {}
+        all_items.each do |i, h|
+          sorted_items[i] = {}
+          inventories.each { |inv| sorted_items[i][inv] = 0 }
+          h.each { |name,qty| sorted_items[i][name] = qty }
+        end
         panel "Inventory Summary" do
-            inventories = Inventory.all
-
-            
+            render partial: "inventories/inventory_dashboard_summary", object: all_items, as: :items, locals: { inventories: inventories }
         end
       end
      column do

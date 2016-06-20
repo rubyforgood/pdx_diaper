@@ -19,6 +19,9 @@ class Donation < ActiveRecord::Base
   validates :dropoff_location, presence: true
   validates :source, presence: true
 
+  scope :completed, -> { where(completed: true) }
+  scope :incomplete, -> { where(completed: false) }
+
   def track(item,quantity)
     if !check_existence(item.id)
       Container.create(itemizable: self, item_id: item.id, quantity: quantity)
