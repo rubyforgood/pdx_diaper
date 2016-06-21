@@ -1,7 +1,7 @@
 <% start_date = start_date.blank? ? default_start_date : start_date %>
 <% end_date = end_date.blank? ? default_end_date : end_date %>
 <h3><%= "Donation Totals for #{start_date.strftime('%D')} - #{end_date.strftime('%D')}" %></h3>
-<h5>Totals By Source:</h5>
+<h5>Totals Items Donated By Source:</h5>
 <ul>
  <% if start_date.blank? || end_date.blank? %>
    <li><%= "Diaper Drive: #{diaper_totals_by_source('Diaper Drive')}" %></li>
@@ -13,7 +13,7 @@
    <li><%= "Donation Pickup Location: #{diaper_totals_by_source('Donation Pickup Location', start_date, end_date)}" %></li>
  <% end %>
 </ul>
-<h5>Totals By Location:</h5>
+<h5>Totals Items Donated By Location:</h5>
 <ul>
 	<% dropoffs.each do |key, value| %>
 		<li><%= "#{key}: #{value}" %></li>
