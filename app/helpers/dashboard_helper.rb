@@ -17,6 +17,7 @@ module DashboardHelper
 		sources.each do |key, value|
 			sources[key] = diaper_totals_by_source(key, start_date, end_date)
 		end
+		sources
 	end
 	
 	def dropoff_totals_by_location(location, start_date=default_start_date, end_date=default_end_date)
@@ -27,6 +28,14 @@ module DashboardHelper
 			donation.containers.each { |c| total += c.quantity }
 		end
 		total
+	end
+
+	def dropoff_totals_for_locations(start_date=default_start_date, end_date=default_end_date)
+		locations = {}
+		DropoffLocation.all.each do |loc|
+			locations[loc.name] = dropoff_totals_by_location(loc.name, start_date, end_date)
+		end
+		locations
 	end
 	
 	def dropoff_totals(start_date=default_start_date, end_date=default_end_date)

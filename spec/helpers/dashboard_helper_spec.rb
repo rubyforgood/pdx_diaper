@@ -60,4 +60,19 @@ RSpec.describe DashboardHelper, type: :helper do
 		result = dropoff_totals()
 		expect(result["Thomas's backpack"]).to eq 2 
 	end
+	describe ".dropoff_totals_for_locations" do
+		it "returns a hash" do
+			result = dropoff_totals_for_locations
+			expect(result).to be_a Hash
+		end
+		it "returns a hash with totals for locations" do
+			l = FactoryGirl.create(:dropoff_location, name: "Thomas's house")
+			d = FactoryGirl.create(:donation, dropoff_location: l)
+			c = FactoryGirl.create(:container, quantity: 100)
+			d.containers << c
+			d.save
+			result = dropoff_totals_for_locations
+			expect(result["Thomas's house"]).to eq 100
+		end
+	end
 end

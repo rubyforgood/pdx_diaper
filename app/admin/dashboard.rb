@@ -58,6 +58,9 @@ ActiveAdmin.register_page "Dashboard" do
             render partial: 'ticket_stats', :locals => {:start_date => start, :end_date => date_end, :dropoffs => dropoff_totals(start, date_end) }
           end
         end
+        panel "Charts" do
+          render partial: 'metrics/charts', locals: { :start_date => start, :end_date => date_end }
+        end
       end
     end
   end # content
