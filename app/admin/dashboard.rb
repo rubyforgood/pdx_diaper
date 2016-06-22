@@ -38,7 +38,10 @@ ActiveAdmin.register_page "Dashboard" do
           h.each { |name,qty| sorted_items[i][name] = qty }
         end
         panel "Inventory Summary" do
-            render partial: "inventories/inventory_dashboard_summary", object: all_items, as: :items, locals: { inventories: inventories }
+          render partial: "inventories/inventory_dashboard_summary", object: all_items, as: :items, locals: { inventories: inventories }
+        end
+        panel "Inventory Charts" do
+          render partial: 'metrics/inventory_charts', locals: {  }
         end
       end
       column do
@@ -58,10 +61,10 @@ ActiveAdmin.register_page "Dashboard" do
             render partial: 'ticket_stats', :locals => {:start_date => start, :end_date => date_end, :dropoffs => dropoff_totals(start, date_end) }
           end
         end
-        panel "Charts" do
+        panel "Donation Charts" do
           render partial: 'metrics/charts', locals: { :start_date => start, :end_date => date_end }
         end
       end
     end
-  end # content
+  end
 end

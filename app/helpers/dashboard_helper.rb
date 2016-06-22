@@ -46,6 +46,18 @@ module DashboardHelper
 		end
 	end
 
+	# Returns an array of hashes for each inventory and the Items and
+	# quantities that are currently stored at each. Used in bar chart.
+	def item_totals_for_inventories
+		result = []
+		Inventory.all.each do |i|
+			entry = { :name => i.name, :data => { } }
+			i.holdings.each { |h| entry[:data] = entry[:data].merge({ h.item.name => h.quantity }) }
+			result << entry
+		end
+		result
+	end
+
 	def default_start_date
 		Date.today - 1.year - 1.day 
 	end
