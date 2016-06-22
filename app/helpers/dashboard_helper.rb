@@ -17,6 +17,7 @@ module DashboardHelper
 		sources.each do |key, value|
 			sources[key] = diaper_totals_by_source(key, start_date, end_date)
 		end
+		sources
 	end
 	
 	def dropoff_totals_by_location(location, start_date=default_start_date, end_date=default_end_date)
@@ -28,6 +29,14 @@ module DashboardHelper
 		end
 		total
 	end
+
+	def dropoff_totals_for_locations(start_date=default_start_date, end_date=default_end_date)
+		locations = {}
+		DropoffLocation.all.each do |loc|
+			locations[loc.name] = dropoff_totals_by_location(loc.name, start_date, end_date)
+		end
+		locations
+	end
 	
 	def dropoff_totals(start_date=default_start_date, end_date=default_end_date)
 		locations_list = DropoffLocation.all
@@ -35,6 +44,18 @@ module DashboardHelper
 		locations.each do |key, value|
 			locations[key] = dropoff_totals_by_location(key, start_date, end_date)
 		end
+	end
+
+	# Returns an array of hashes for each inventory and the Items and
+	# quantities that are currently stored at each. Used in bar chart.
+	def item_totals_for_inventories
+		result = []
+		Inventory.all.each do |i|
+			entry = { :name => i.name, :data => { } }
+			i.holdings.each { |h| entry[:data] = entry[:data].merge({ h.item.name => h.quantity }) }
+			result << entry
+		end
+		result
 	end
 
 	def default_start_date

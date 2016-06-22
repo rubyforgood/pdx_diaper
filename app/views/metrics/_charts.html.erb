@@ -1,0 +1,18 @@
+<%= javascript_include_tag "https://www.google.com/jsapi" %>
+<% start_date = start_date.blank? ? default_start_date : start_date %>
+<% end_date = end_date.blank? ? default_end_date : end_date %>
+
+<% test = {} %>
+<% ((start_date..end_date).select(&:sunday?) << end_date).each do |day| %>
+	<% test[day] = diaper_drives_total(start_date, day).count %>
+<% end %>
+
+<p>
+	<h4>Diaper drives totals for <%= "#{start_date} - #{end_date}" %></h4>
+	<%= line_chart(test) %>
+</p>
+
+<p>
+	<h4>Total Items Donated by Location for <%= "#{start_date} - #{end_date}" %></h4>
+	<%= pie_chart(dropoff_totals_for_locations(start_date, end_date)) %>
+</p>

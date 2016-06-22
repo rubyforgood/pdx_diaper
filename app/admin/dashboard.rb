@@ -38,25 +38,33 @@ ActiveAdmin.register_page "Dashboard" do
           h.each { |name,qty| sorted_items[i][name] = qty }
         end
         panel "Inventory Summary" do
-            render partial: "inventories/inventory_dashboard_summary", object: all_items, as: :items, locals: { inventories: inventories }
+          render partial: "inventories/inventory_dashboard_summary", object: all_items, as: :items, locals: { inventories: inventories }
+        end
+        panel "Inventory Charts" do
+          render partial: 'metrics/inventory_charts', locals: {  }
         end
       end
-     column do
+      column do
+        if !params[:start_date].blank?
+          start = Date.strptime(params[:start_date], "%Y-%m-%d")
+        end
+        if !params[:end_date].blank?
+          date_end = Date.strptime(params[:end_date], "%Y-%m-%d")
+        end
         panel "Donation Totals" do
           para do
-            if !params[:start_date].blank?
-              start = Date.strptime(params[:start_date], "%Y-%m-%d")
-            end
-            if !params[:end_date].blank?
-              date_end = Date.strptime(params[:end_date], "%Y-%m-%d")
-            end
             render partial: 'donation_stats', :locals => {:start_date => start, :end_date => date_end, :dropoffs => dropoff_totals(start, date_end) }
           end
         end
         panel "Ticket Totals" do
-          h3 "Ticket Totals"
+          para do
+            render partial: 'ticket_stats', :locals => {:start_date => start, :end_date => date_end, :dropoffs => dropoff_totals(start, date_end) }
+          end
+        end
+        panel "Donation Charts" do
+          render partial: 'metrics/charts', locals: { :start_date => start, :end_date => date_end }
         end
       end
     end
-  end # content
+  end
 end
