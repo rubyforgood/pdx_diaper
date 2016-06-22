@@ -24,12 +24,18 @@ ActiveAdmin.register Item do
 
   config.sort_order = "name_asc"
 
+  controller do
+    def scoped_collection
+      Item.includes :barcode_items
+    end
+  end
+
   index do
     selectable_column
     column :name
     column :category
     column "Barcode Entries" do |i|
-      entries = BarcodeItem.where(item_id: i).count
+      entries = i.barcode_count
       link_to_unless(entries == 0, entries, barcode_items_path("q[item_id_eq]": i, item_id_eq: i))
     end
     actions

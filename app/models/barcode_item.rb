@@ -11,7 +11,7 @@
 #
 
 class BarcodeItem < ActiveRecord::Base
-  belongs_to :item
+  belongs_to :item, dependent: :destroy, counter_cache: :barcode_count
 
   validates :value, presence: true, uniqueness: true
   validates :quantity, presence: true
