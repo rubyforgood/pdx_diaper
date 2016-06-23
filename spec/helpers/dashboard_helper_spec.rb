@@ -9,7 +9,7 @@ RSpec.describe DashboardHelper, type: :helper do
 	context "when donation is out of date range" do
 		it "returns array of 0 donations" do
 			d = FactoryGirl.create(:donation, source: "Diaper Drive")
-			result = diaper_drives_total(Date.today - 1.year, Date.today - 10.days)
+			result = diaper_drives_total(DateTime.now - 1.year, DateTime.now - 10.days)
 			expect(result).to eq([])
 		end
 	end

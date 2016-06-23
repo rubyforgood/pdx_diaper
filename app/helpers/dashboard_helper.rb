@@ -1,11 +1,11 @@
 module DashboardHelper
-	
+
 	def diaper_drives_total(start_date=default_start_date, end_date=default_end_date)
-		Donation.where(source: "Diaper Drive").where(:created_at => start_date..end_date)
+		Donation.where(source: "Diaper Drive").where("created_at >= ? AND created_at <= ?", start_date, end_date)
 	end
 	
 	def diaper_totals_by_source(source, start_date=default_start_date, end_date=default_end_date)
-		donations = Donation.where(source: source).where(:created_at => start_date..end_date)
+		donations = Donation.where(source: source).where("created_at >= ? AND created_at <= ?", start_date, end_date)
 		total = 0
 		donations.each do |donation|
 			donation.containers.each { |c| total += c.quantity }
@@ -23,7 +23,7 @@ module DashboardHelper
 	
 	def dropoff_totals_by_location(location, start_date=default_start_date, end_date=default_end_date)
 		l = DropoffLocation.find_by(name: location)
-		donations = Donation.where(dropoff_location: l).where(:created_at => start_date..end_date)
+		donations = Donation.where(dropoff_location: l).where("created_at >= ? AND created_at <= ?", start_date, end_date)
 		total = 0
 		donations.each do |donation|
 			donation.containers.each { |c| total += c.quantity }
@@ -60,11 +60,11 @@ module DashboardHelper
 	end
 
 	def default_start_date
-		Date.today - 1.year - 1.day 
+		DateTime.now - 1.year
 	end
 
 	def default_end_date
-		Date.today + 1.day
+		DateTime.now
 	end
 
 end

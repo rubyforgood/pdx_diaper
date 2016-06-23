@@ -8,11 +8,11 @@
 <% end %>
 
 <p>
-	<h4>Diaper drives totals for <%= "#{start_date} - #{end_date}" %></h4>
+	<h4>Diaper drives totals for <%= "#{start_date.strftime('%D')} - #{end_date.strftime('%D')}" %></h4>
 	<%= line_chart(test) %>
 </p>
 
 <p>
-	<h4>Total Items Donated by Location for <%= "#{start_date} - #{end_date}" %></h4>
+	<h4>Total Items Donated by Location for <%= "#{start_date.strftime('%D')} - #{end_date.strftime('%D')}" %></h4>
 	<%= pie_chart(dropoff_totals_for_locations(start_date, end_date)) %>
 </p>

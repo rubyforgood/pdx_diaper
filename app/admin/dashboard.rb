@@ -3,22 +3,28 @@ ActiveAdmin.register_page "Dashboard" do
   menu priority: 1, label: proc{ I18n.t("active_admin.dashboard") }
 
   page_action :update_metrics, method: :post do
-    redirect_to root_path(:start_date => params[:event][:starts_at], :end_date => params[:event][:ends_at])
+    start_date = Date.strptime(params[:event][:starts_at], "%Y-%m-%d")
+    end_date = Date.strptime(params[:event][:ends_at], "%Y-%m-%d")
+    if start_date > end_date
+      redirect_to root_path, alert: "You must enter a valid date range"
+    else
+      redirect_to root_path(:start_date => params[:event][:starts_at], :end_date => params[:event][:ends_at])
+    end
   end
 
   sidebar :options do
-      form_for :event, { :url => dashboard_update_metrics_path } do |f|
-        div do
-          f.label :starts_at
-          f.text_field :starts_at, :as => :datepicker, :class => "datepicker hasDatetimePicker dashboardDatePicker", :value  => (default_start_date).strftime('%Y-%m-%d')
-        end
-        div do
-          f.label :ends_at
-          f.text_field :ends_at, :as => :datepicker, :class => "datepicker hasDatetimePicker dashboardDatePicker", :value  => default_end_date.strftime('%Y-%m-%d')
-        end
-        f.submit "Update Date Range"
+    form_for :event, { :url => dashboard_update_metrics_path } do |f|
+      div do
+        f.label :starts_at
+        f.text_field :starts_at, :as => :datepicker, :class => "datepicker hasDatetimePicker dashboardDatePicker", :value  => (default_start_date).strftime('%Y-%m-%d')
       end
+      div do
+        f.label :ends_at
+        f.text_field :ends_at, :as => :datepicker, :class => "datepicker hasDatetimePicker dashboardDatePicker", :value  => DateTime.now.strftime('%Y-%m-%d')
+      end
+      f.submit "Update Date Range"
     end
+  end
 
   content title: proc{ I18n.t("active_admin.dashboard") } do
     columns do
@@ -46,10 +52,10 @@ ActiveAdmin.register_page "Dashboard" do
       end
       column do
         if !params[:start_date].blank?
-          start = Date.strptime(params[:start_date], "%Y-%m-%d")
+          start = DateTime.strptime(params[:start_date], "%Y-%m-%d").beginning_of_day
         end
         if !params[:end_date].blank?
-          date_end = Date.strptime(params[:end_date], "%Y-%m-%d")
+          date_end = DateTime.strptime(params[:end_date], "%Y-%m-%d").end_of_day
         end
         panel "Donation Totals" do
           para do
