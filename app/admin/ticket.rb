@@ -16,6 +16,11 @@ ActiveAdmin.register Ticket do
     link_to "Reclaim", reclaim_ticket_path(ticket), method: :put
   end
 
+  filter :inventory
+  filter :partner
+  filter :items
+  filter :created_at, as: :date_range
+
   permit_params :inventory_id,
     :partner_id,
     :containers_attributes => [:item_id, :quantity, :id, :_destroy]
