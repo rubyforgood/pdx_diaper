@@ -20,7 +20,7 @@ RSpec.describe DashboardHelper, type: :helper do
 		d.containers << c
 		d.save
 		result = diaper_totals_by_source("Diaper Drive")
-		expect(result).to eq 10
+		expect(result).to eq(10)
 	end
 
 	it "returns a hash with diaper total for source: Diaper Drive" do

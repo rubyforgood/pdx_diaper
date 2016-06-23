@@ -3,7 +3,7 @@
 <% end_date = end_date.blank? ? default_end_date : end_date %>
 
 <% test = {} %>
-<% ((start_date..end_date).select(&:sunday?) << end_date).each do |day| %>
+<% split_range_into_dates(start_date, end_date).each do |day| %>
 	<% test[day] = diaper_drives_total(start_date, day).count %>
 <% end %>
 

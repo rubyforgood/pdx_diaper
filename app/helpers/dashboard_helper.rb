@@ -1,4 +1,5 @@
 module DashboardHelper
+	
 	def diaper_drives_total(start_date=default_start_date, end_date=default_end_date)
 		Donation.where(source: "Diaper Drive").where(:created_at => start_date..end_date)
 	end
