@@ -30,7 +30,7 @@ ActiveAdmin.register Ticket do
       @ticket = Ticket.new permitted_params[:ticket]
       inventory = @ticket.inventory
       begin
-        inventory.distribute!(@ticket)
+        inventory.distribute!(@ticket) if inventory
         if @ticket.save
           redirect_to @ticket, notice: "Successfully created new ticket"
         else
@@ -78,7 +78,7 @@ ActiveAdmin.register Ticket do
 
   form do |f|
     inputs do
-      input :partner_id, :label => 'Partner', :as => :select, :collection => Partner.all
+      input :partner, :label => 'Partner', :as => :select, :collection => Partner.all
       input :inventory, :label => 'Storage Facility', :as => :select, :collection => Inventory.all
     end
     inputs 'Items' do
