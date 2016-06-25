@@ -33,14 +33,14 @@ ActiveAdmin.register Donation do
   member_action :add_item_from_barcode, method: :post do
     donation=Donation.find(params[:id])
     barcode_item = BarcodeItem.includes(:item).find_by_value(params[:container][:value])
-    
+
     unless barcode_item.present?
-      redirect_to new_barcode_item_path(value: params[:container][:value], return_to_donation_id: params[:id]) and return 
+      redirect_to new_barcode_item_path(value: params[:container][:value], return_to_donation_id: params[:id]) and return
     end
 
     donation.track(barcode_item.item, barcode_item.quantity)
     redirect_to donation_path(params[:id], from:"barcode")
-  end  
+  end
 
   member_action :complete, method: :put do
     donation = Donation.find(params[:id])
@@ -106,30 +106,43 @@ end
         nil
       end
     end
+
     unless donation.completed == true
-      panel "Add Item" do
-        form_for :container, { :url => add_item_donation_path } do |f|
-          div do
-            f.label :item
-            f.select("item_id", Item.all.collect { |i| [i.name, i.id] } )
-          end
-          div do
-            f.label :quantity
-            f.text_field :quantity
-          end
-            f.submit
+      form_for :container, { :url => add_item_donation_path } do |f|
+        fieldset class: "inputs" do
+          legend { span "Add Item" }
+          ol do
+            li class: "select input" do
+              f.label :item, class: "label"
+              f.select("item_id", Item.all.collect { |i| [i.name, i.id] } )
+            end
+            li class: "input" do
+              f.label :quantity
+              f.text_field :quantity
+            end
+            li do
+              f.submit
+            end
           end
         end
       end
 
-      panel "Add Item in From Barcode" do
-        form_for :container, { url: add_item_from_barcode_donation_path } do |f|
-          div do
-            f.label "Click here and scan barcode"
-            f.text_field :value, autofocus: (params[:from].present? && params[:from] == "barcode")
+      form_for :container, { url: add_item_from_barcode_donation_path } do |f|
+        fieldset class: "inputs" do
+          legend do
+            span "Add Item in From Barcode"
           end
-          f.submit
+          ol do
+            li do
+              f.label "Click here and scan barcode", for: "container_value", class: "label"
+              f.text_field :value, autofocus: (params[:from].present? && params[:from] == "barcode")
+            end
+            li do
+              f.submit
+            end
+          end
         end
       end
     end
+  end
 end
