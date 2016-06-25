@@ -1,0 +1,6 @@
+language: ruby
+rvm:
+  - 2.3.0
+
+env:
+  SECRET_KEY_BASE="$(bundle exec rake secret)"

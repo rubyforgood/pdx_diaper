@@ -48,6 +48,8 @@ gem 'dotenv'
   gem 'cancancan', '~> 1.10'
   gem 'devise'
 
+gem 'rake'
+
 group :production do
 	# Use unicorn as the app server
 	gem 'unicorn'
@@ -60,7 +62,6 @@ group :development do
   gem 'capistrano-rails'
   gem 'capistrano-rbenv'
   gem 'quiet_assets'
-  gem 'rspec-rails'
   gem 'spring'
 end
 
@@ -77,5 +78,6 @@ group :development, :test do
   gem 'awesome_print'
   gem 'byebug'
   gem 'guard-rspec'
+  gem 'rspec-rails'
 end
 
