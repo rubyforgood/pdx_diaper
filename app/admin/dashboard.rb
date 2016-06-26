@@ -12,17 +12,17 @@ ActiveAdmin.register_page "Dashboard" do
     end
   end
 
-  sidebar :options do
-    form_for :event, { :url => dashboard_update_metrics_path } do |f|
-      div do
-        f.label :starts_at
-        f.text_field :starts_at, :as => :datepicker, :class => "datepicker hasDatetimePicker dashboardDatePicker", :value  => (default_start_date).strftime('%Y-%m-%d')
+  sidebar :filter do
+    form_for :event, url: dashboard_update_metrics_path, html: { class: "filter_form" } do |f|
+      div class: "date_range input filter_form_field filter_date_range" do
+        f.label :by_date, class: "label"
+        f.text_field :starts_at, as: :datepicker, class: "datepicker hasDatetimePicker dashboardDatePicker", size: 12, maxlength: 10, value: (default_start_date).strftime('%Y-%m-%d')
+        span "-", class: "seperator"
+        f.text_field :ends_at, as: :datepicker, class: "datepicker hasDatetimePicker dashboardDatePicker", size: 12, maxlength: 10, value: DateTime.now.strftime('%Y-%m-%d')
       end
-      div do
-        f.label :ends_at
-        f.text_field :ends_at, :as => :datepicker, :class => "datepicker hasDatetimePicker dashboardDatePicker", :value  => DateTime.now.strftime('%Y-%m-%d')
+      div class: "buttons" do
+        f.submit "Update Filter"
       end
-      f.submit "Update Date Range"
     end
   end
 
@@ -31,8 +31,8 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         inventories = Inventory.all.collect { |i| i.name }
         all_items = {}
-        
-        # 
+
+        #
         Holding.includes(:inventory).includes(:item).all.each do |h|
           all_items[h.item.name] ||= {}
           all_items[h.item.name][h.inventory.name] = h.quantity
