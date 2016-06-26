@@ -3,19 +3,19 @@
 <h3><%= "Donation Totals for #{start_date.strftime('%D')} - #{end_date.strftime('%D')}" %></h3>
 <h5>Totals Items Donated By Source:</h5>
 <ul>
- <% if start_date.blank? || end_date.blank? %>
-   <li><%= "Diaper Drive: #{diaper_totals_by_source('Diaper Drive')}" %></li>
-   <li><%= "Purchased Supplies: #{diaper_totals_by_source('Purchased Supplies')}" %></li>
-   <li><%= "Donation Pickup Location: #{diaper_totals_by_source('Donation Pickup Location')}" %></li>
- <% else %>
-   <li><%= "Diaper Drive: #{diaper_totals_by_source('Diaper Drive', start_date, end_date)}" %></li>
-   <li><%= "Purchased Supplies: #{diaper_totals_by_source('Purchased Supplies', start_date, end_date)}" %></li>
-   <li><%= "Donation Pickup Location: #{diaper_totals_by_source('Donation Pickup Location', start_date, end_date)}" %></li>
- <% end %>
+ <% if start_date.blank? || end_date.blank?
+ 	  totals = diaper_totals_by_source(['Diaper Drive', 'Purchased Supplies', 'Donation Pickup Location'])
+    else 
+      totals = diaper_totals_by_source(['Diaper Drive', 'Purchased Supplies', 'Donation Pickup Location'], start_date, end_date) 
+    end 
+
+    totals.each do |source, total| %>
+      <li><%= "#{source}: #{total}" %></li>
+    <% end %>
 </ul>
 <h5>Totals Items Donated By Location:</h5>
 <ul>
-	<% dropoffs.each do |key, value| %>
+	<% dropoff_totals(start_date, end_date).each do |key, value| %>
 		<li><%= "#{key}: #{value}" %></li>
 	<% end %>
 </ul>

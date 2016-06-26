@@ -43,6 +43,7 @@ ActiveAdmin.register_page "Dashboard" do
         panel "Inventory Summary" do
           render partial: "inventories/inventory_dashboard_summary", object: all_items, as: :items, locals: { inventories: inventories }
         end
+
         panel "Inventory Charts" do
           render partial: 'metrics/inventory_charts', locals: {  }
         end
@@ -56,7 +57,7 @@ ActiveAdmin.register_page "Dashboard" do
         end
         panel "Donation Totals" do
           para do
-            render partial: 'donation_stats', :locals => {:start_date => start, :end_date => date_end, :dropoffs => dropoff_totals(start, date_end) }
+            render partial: 'donation_stats', :locals => {:start_date => start, :end_date => date_end }
           end
         end
         panel "Ticket Totals" do
@@ -65,6 +66,11 @@ ActiveAdmin.register_page "Dashboard" do
           end
         end
         panel "Donation Charts" do
+          ####
+          # TODO: These generate a bunch of individual counts because it's querying day by day.
+          # Not sure how to group the day results together to avoid n+1 but it's worth
+          # exploring that to make this query more efficient.
+          ####
           render partial: 'metrics/charts', locals: { :start_date => start, :end_date => date_end }
         end
       end
