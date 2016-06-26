@@ -1,6 +1,6 @@
 GIT
-  remote: git://github.com/activeadmin/activeadmin.git
-  revision: 0ac35b7ff05246c3bc143c74fab38c4fdc0e875b
+  remote: git://github.com/armahillo/activeadmin.git
+  revision: d62afd4de9d31658869363035e68c7e1674b65df
   specs:
     activeadmin (1.0.0.pre2)
       arbre (~> 1.0, >= 1.0.2)
@@ -291,7 +291,7 @@ GEM
     shellany (0.0.1)
     slop (3.6.0)
     spring (1.7.1)
-    sprockets (3.6.1)
+    sprockets (3.6.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.0.4)
@@ -324,7 +324,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activeadmin!
+  activeadmin (~> 1.0.0.pre.pre2)!
   annotate
   awesome_print
   better_errors

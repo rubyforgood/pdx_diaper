@@ -8,7 +8,7 @@ gem 'rails'
 gem 'dotenv-rails', group: :production
 
 # Dashboard for managing resources
-gem 'activeadmin', github: 'activeadmin'
+gem 'activeadmin', '~> 1.0.0-pre2', github: 'armahillo/activeadmin'
 
 # Use postgres as the database for Active Record
 gem 'pg', group: :production
