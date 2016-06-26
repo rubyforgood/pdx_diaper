@@ -23,6 +23,12 @@ ActiveAdmin.register Donation do
   scope :completed
   scope :incomplete
 
+  controller do
+    def scoped_collection
+      Donation.includes :inventory
+    end
+  end
+
   member_action :add_item, method: :post do
     donation=Donation.find(params[:id])
     item=Item.find(params[:container][:item_id])
@@ -75,11 +81,17 @@ index do
   selectable_column
   column "Receipt Number", :id
   column :source
+  column "Storage Location" do |d|
+    d.inventory.name
+  end
   column "Last changed", :updated_at do |d|
     d.updated_at
   end
   column "Started on", :created_at do |d|
     d.updated_at
+  end
+  column "Completed?", :completed do |d|
+    d.completed? ? status_tag( "yes", :ok ) : status_tag( "no" )
   end
   actions
 end
