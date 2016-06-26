@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/armahillo/activeadmin.git
-  revision: d62afd4de9d31658869363035e68c7e1674b65df
+  revision: a34fb660c8ca7100cc5d95c1eeadbbe9faadb325
   specs:
     activeadmin (1.0.0.pre2)
       arbre (~> 1.0, >= 1.0.2)
