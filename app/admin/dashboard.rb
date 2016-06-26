@@ -30,18 +30,15 @@ ActiveAdmin.register_page "Dashboard" do
     columns do
       column do
         inventories = Inventory.all.collect { |i| i.name }
-        all_items = {}
-
-        #
-        Holding.includes(:inventory).includes(:item).all.each do |h|
-          all_items[h.item.name] ||= {}
-          all_items[h.item.name][h.inventory.name] = h.quantity
-        end
-        sorted_items = {}
-        all_items.each do |i, h|
-          sorted_items[i] = {}
-          inventories.each { |inv| sorted_items[i][inv] = 0 }
-          h.each { |name,qty| sorted_items[i][name] = qty }
+        data = Item.joins(:holdings)
+          .includes(holdings: :inventory)
+          .group("items.name", "inventories.name")
+          .order("items.name, inventories.name")
+          .sum("holdings.quantity")
+        all_items = data.each_with_object({}) do |(keys, quantity), memo|
+          item_name, inventory_name = keys
+          memo[item_name] ||= {}
+          memo[item_name][inventory_name] = quantity
         end
         panel "Inventory Summary" do
           render partial: "inventories/inventory_dashboard_summary", object: all_items, as: :items, locals: { inventories: inventories }

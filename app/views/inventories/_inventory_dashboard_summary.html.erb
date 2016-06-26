@@ -2,7 +2,7 @@
   <thead>
   	<tr>
   	  <th>Item</th>
-  	  <%= inventories.each do |i| %>
+  	  <% inventories.each do |i| %>
   	     <th><%= i %></th>
   	   <% end %>
   	</tr>
@@ -12,9 +12,9 @@
     <% items.each do |i,h| %>
     <tr>
       <td><%= i %></td>
-       
-      <% h.each do |qty| %>
-      <td><%= qty[0]  %><%= qty[1] || 0 %></td>
+
+      <% inventories.each do |i| %>
+        <td><%= h[i] %></td>
       <% end %>
     </tr>
     <% end %>
