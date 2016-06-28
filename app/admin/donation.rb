@@ -62,7 +62,7 @@ ActiveAdmin.register Donation do
 
 action_item only: :show do
   if donation.completed == false
-    link_to "Complete donation", complete_donation_path(donation.id), method: :put
+    link_to "Complete donation", complete_donation_path(donation.id), method: :put, data: { confirm: "Are you sure you would like to complete this donation? This action cannot be reversed!" }
   end
 end
 
