@@ -1,26 +1,13 @@
 require "rails_helper"
 
 RSpec.describe DashboardHelper, type: :helper do
-	it "returns array of 1 donation" do
-		d = FactoryGirl.create(:donation, source: "Diaper Drive")
-		result = diaper_drives_total()
-		expect(result).to eq([d])
-	end
-	context "when donation is out of date range" do
-		it "returns array of 0 donations" do
-			d = FactoryGirl.create(:donation, source: "Diaper Drive")
-			result = diaper_drives_total(DateTime.now - 1.year, DateTime.now - 10.days)
-			expect(result).to eq([])
-		end
-	end
-
 	it "returns a count of 10" do
 		d = FactoryGirl.create(:donation, source: "Diaper Drive")
 		c = FactoryGirl.create(:container, quantity: 10)
 		d.containers << c
 		d.save
-		result = diaper_totals_by_source("Diaper Drive")
-		expect(result).to eq(10)
+		result = diaper_totals_by_source()
+		expect(result).to include "Diaper Drive" => 10
 	end
 
 	it "returns a hash with diaper total for source: Diaper Drive" do
@@ -28,7 +15,7 @@ RSpec.describe DashboardHelper, type: :helper do
 		c = FactoryGirl.create(:container, quantity: 10)
 		d.containers << c
 		d.save
-		result = diaper_totals()
+		result = diaper_totals_by_source()
 		expect(result["Diaper Drive"]).to be >= 10
 	end
 
@@ -37,18 +24,8 @@ RSpec.describe DashboardHelper, type: :helper do
 		c = FactoryGirl.create(:container, quantity: 1)
 		d.containers << c
 		d.save
-		result = diaper_totals()
+		result = diaper_totals_by_source()
 		expect(result["Purchased Supplies"]).to eq 1
-	end
-
-	it "returns a count of 12" do
-		l = FactoryGirl.create(:dropoff_location, name: "the bathroom")
-		d = FactoryGirl.create(:donation, dropoff_location: l)
-		c = FactoryGirl.create(:container, quantity: 12)
-		d.containers << c
-		d.save
-		result = dropoff_totals_by_location("the bathroom")
-		expect(result).to eq 12
 	end
 
 	it "returns a hash with a diaper total for Thomas's backpack" do
@@ -58,11 +35,12 @@ RSpec.describe DashboardHelper, type: :helper do
 		d.containers << c
 		d.save
 		result = dropoff_totals()
-		expect(result["Thomas's backpack"]).to eq 2 
+		expect(result["Thomas's backpack"]).to eq 2
 	end
-	describe ".dropoff_totals_for_locations" do
+
+	describe ".dropoff_totals" do
 		it "returns a hash" do
-			result = dropoff_totals_for_locations
+			result = dropoff_totals
 			expect(result).to be_a Hash
 		end
 		it "returns a hash with totals for locations" do
@@ -71,7 +49,7 @@ RSpec.describe DashboardHelper, type: :helper do
 			c = FactoryGirl.create(:container, quantity: 100)
 			d.containers << c
 			d.save
-			result = dropoff_totals_for_locations
+			result = dropoff_totals
 			expect(result["Thomas's house"]).to eq 100
 		end
 	end
@@ -99,14 +77,15 @@ RSpec.describe DashboardHelper, type: :helper do
 		it "includes data hash including all items in inventory" do
 			i = FactoryGirl.create(:inventory, name: "Thomas's inventory")
 			d = FactoryGirl.create(:donation)
-			c = FactoryGirl.create(:container, quantity: 100)
-			c2 = FactoryGirl.create(:container, quantity: 200)
+			item = FactoryGirl.create(:item)
+			c = FactoryGirl.create(:container, quantity: 100, item: item)
+			c2 = FactoryGirl.create(:container, quantity: 200, item: item)
 			d.containers << c
 			d.containers << c2
 			d.save
-			i.intake!(d)
+			results = i.intake!(d)
 			result = item_totals_for_inventories
-			expect(result.last[:data]).to eq({c.item.name => 100, c2.item.name => 200})
+			expect(result.last[:data]).to eq({ item.name => 300 })
 		end
 	end
 end

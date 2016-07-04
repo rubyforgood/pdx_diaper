@@ -40,14 +40,14 @@ RSpec.describe Inventory, type: :model do
 	describe "distribute!" do
 	  it "distrbutes items from inventory" do
 		  inventory = create :inventory_with_items, item_quantity: 300
-                  ticket = build :ticket_with_items, inventory: inventory, item_quantity: 50
+                  ticket = build :ticket, :with_items, inventory: inventory, item_quantity: 50
 		  inventory.distribute!(ticket)
 		  expect(inventory.holdings.first.quantity).to eq 250
 	  end
 
           it "raises error when ticket exceeds inventory" do
 		  inventory = create :inventory_with_items, item_quantity: 300
-                  ticket = build :ticket_with_items, inventory: inventory, item_quantity: 350
+                  ticket = build :ticket, :with_items, inventory: inventory, item_quantity: 350
                   item = ticket.containers.first.item
                   expect {
                     inventory.distribute!(ticket)
@@ -89,7 +89,7 @@ RSpec.describe Inventory, type: :model do
   describe "reclaim!" do
     it "adds ticket items back to inventory" do
       inventory = create :inventory_with_items, item_quantity: 300
-      ticket = create :ticket_with_items, inventory: inventory, item_quantity: 50
+      ticket = create :ticket, :with_items, inventory: inventory, item_quantity: 50
       inventory.reclaim!(ticket)
       expect(inventory.holdings.first.quantity).to eq 350
     end
