@@ -11,8 +11,7 @@ gem 'dotenv-rails', group: :production
 gem 'activeadmin', '~> 1.0.0-pre2', github: 'armahillo/activeadmin'
 
 # Use postgres as the database for Active Record
-gem 'pg', group: :production
-gem 'sqlite3', group: [:development, :test]
+gem 'pg'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
