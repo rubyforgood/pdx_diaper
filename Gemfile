@@ -11,8 +11,7 @@ gem 'dotenv-rails', group: :production
 gem 'activeadmin', '~> 1.0.0-pre2', github: 'armahillo/activeadmin'
 
 # Use postgres as the database for Active Record
-gem 'pg', group: :production
-gem 'sqlite3', group: [:development, :test]
+gem 'pg'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -37,6 +36,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Beautiful charts
 gem "chartkick"
+gem "groupdate"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

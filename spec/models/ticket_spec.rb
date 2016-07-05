@@ -13,6 +13,6 @@ require "rails_helper"
 
 RSpec.describe Ticket, type: :model do
   it "is invalid if it tries to issue more product than what is on-hand" do
-  	create(:ticket_with_items)
+    create(:ticket, :with_items)
   end
 end

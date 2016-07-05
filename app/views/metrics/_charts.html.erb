@@ -2,10 +2,7 @@
 <% start_date = start_date.blank? ? default_start_date : start_date %>
 <% end_date = end_date.blank? ? default_end_date : end_date %>
 
-<% test = {} %>
-<% split_range_into_dates(start_date, end_date).each do |day| %>
-	<% test[day] = diaper_drives_total(start_date, day).count %>
-<% end %>
+<% test = Donation.diaper_drive.daily_quantities_by_source(start_date, end_date) %>
 
 <p>
 	<h4>Diaper drives totals for <%= "#{start_date.strftime('%D')} - #{end_date.strftime('%D')}" %></h4>
@@ -14,5 +11,5 @@
 
 <p>
 	<h4>Total Items Donated by Location for <%= "#{start_date.strftime('%D')} - #{end_date.strftime('%D')}" %></h4>
-	<%= pie_chart(dropoff_totals_for_locations(start_date, end_date)) %>
+	<%= pie_chart(dropoff_totals(start_date, end_date)) %>
 </p>

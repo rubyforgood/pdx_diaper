@@ -2,5 +2,12 @@ language: ruby
 rvm:
   - 2.3.0
 
+services:
+  - postgresql
+
 env:
   SECRET_KEY_BASE="$(bundle exec rake secret)"
+
+before_script:
+  - psql -c 'create database pdxdb_test;' -U postgres
+  - cp config/database.yml.travis config/database.yml

@@ -14,7 +14,7 @@ FactoryGirl.define do
     inventory
     partner
 
-    factory :ticket_with_items do
+    trait :with_items do
       association :inventory, factory: :inventory_with_items
 
       transient do

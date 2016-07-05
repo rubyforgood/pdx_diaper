@@ -77,4 +77,36 @@ RSpec.describe Donation, type: :model do
     d.complete
     expect(d.completed).to be true
   end
+
+  describe "scope `#between`" do
+    before(:each) { Donation.delete_all }
+
+    it "returns all donations created between two dates" do
+      donations = create_list :donation, 5
+      start_date = donations.first.created_at - 1.day
+      end_date = donations.last.created_at + 1.day
+      results = Donation.between(start_date, end_date).to_a
+      expect(results).to match donations
+    end
+
+    it "does not return donations created outside of two dates" do
+      donations = create_list :donation, 5
+      results = Donation.between(1.year.ago, 5.months.ago).to_a
+      expect(results).to be_empty
+    end
+  end
+
+  describe "scope `#diaper_drive`" do
+    it "returns all donations from a diaper drive" do
+      donations = create_list :donation, 3, source: "Diaper Drive"
+      results = Donation.diaper_drive
+      expect(results.to_a).to match donations
+    end
+
+    it "does not return non-diaper drive donations" do
+      donations = create_list :donation, 2, source: "Donation"
+      results = Donation.diaper_drive
+      expect(results.to_a).not_to match donations
+    end
+  end
 end

@@ -21,6 +21,12 @@ class Donation < ActiveRecord::Base
 
   scope :completed, -> { where(completed: true) }
   scope :incomplete, -> { where(completed: false) }
+  scope :between, ->(start, stop) { where(donations: { created_at: start..stop }) }
+  scope :diaper_drive, -> { where(source: "Diaper Drive") }
+
+  def self.daily_quantities_by_source(start, stop)
+    joins(:containers).includes(:containers).between(start, stop).group(:source).group_by_day("donations.created_at").sum("containers.quantity")
+  end
 
   def track(item,quantity)
     if !check_existence(item.id)

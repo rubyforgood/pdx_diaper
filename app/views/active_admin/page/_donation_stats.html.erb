@@ -4,10 +4,10 @@
 <h5>Totals Items Donated By Source:</h5>
 <ul>
  <% if start_date.blank? || end_date.blank?
- 	  totals = diaper_totals_by_source(['Diaper Drive', 'Purchased Supplies', 'Donation Pickup Location'])
-    else 
-      totals = diaper_totals_by_source(['Diaper Drive', 'Purchased Supplies', 'Donation Pickup Location'], start_date, end_date) 
-    end 
+ 	  totals = diaper_totals_by_source
+    else
+      totals = diaper_totals_by_source(start_date, end_date)
+    end
 
     totals.each do |source, total| %>
       <li><%= "#{source}: #{total}" %></li>
