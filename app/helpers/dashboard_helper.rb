@@ -28,6 +28,10 @@ module DashboardHelper
 		result
 	end
 
+	def container_quantity_by_type(type, start_date=send(:default_start_date), end_date=send(:default_end_date))
+		Container.where(itemizable_type: type).where(created_at: start_date..end_date).sum(:quantity)
+	end
+
 	def default_start_date
 		DateTime.now - 1.year
 	end
