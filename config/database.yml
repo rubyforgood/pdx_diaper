@@ -14,7 +14,7 @@ default: &default
   pool: 5
   adapter: postgresql
   host: localhost
-  username: tmobaird
+  username: kwalters
 
 development: &development
   <<: *default
