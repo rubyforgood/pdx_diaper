@@ -348,7 +348,7 @@ DEPENDENCIES
   jquery-rails
   pg
   quiet_assets
-  rails
+  rails (~> 4.2.6)
   rake
   rspec-rails
   sass-rails (~> 5.0)
