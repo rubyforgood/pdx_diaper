@@ -1,58 +1,30 @@
 source 'https://rubygems.org'
+
 ruby '2.3.0'
+gem 'rails', '~> 4.2.6'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails'
-
-# DotEnv to load production pw and all that
-gem 'dotenv-rails', group: :production
-
-# Dashboard for managing resources
-gem 'activeadmin', '~> 1.0.0-pre2', github: 'armahillo/activeadmin'
-
-# Use postgres as the database for Active Record
-gem 'pg'
-
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
-
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-# Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
-
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer',  platforms: :ruby
-
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-#gem 'turbolinks'
-
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
-# bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0',          group: :doc
-
-# Beautiful charts
 gem "chartkick"
 gem "groupdate"
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use Capistrano for deployment
-
+gem 'activeadmin', '~> 1.0.0-pre2', github: 'armahillo/activeadmin'
+gem 'cancancan', '~> 1.10'
+gem 'coffee-rails', '~> 4.1.0'
+gem 'devise'
 gem 'dotenv'
-
-
-  gem 'cancancan', '~> 1.10'
-  gem 'devise'
-
+gem 'dotenv-rails', group: :production
+gem 'jbuilder', '~> 2.0'
+gem 'jquery-rails'
+gem 'pg'
 gem 'rake'
+gem 'sass-rails', '~> 5.0'
+gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'therubyracer',  platforms: :ruby
+gem 'uglifier', '>= 1.3.0'
 
-group :production do
-	# Use unicorn as the app server
-	gem 'unicorn'
+group :development, :test do
+  gem 'awesome_print'
+  gem 'byebug'
+  gem 'guard-rspec'
+  gem 'rspec-rails'
 end
 
 group :development do
@@ -65,19 +37,12 @@ group :development do
   gem 'spring'
 end
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]
-
 group :test do
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
 end
 
-group :development, :test do
-  gem 'awesome_print'
-  gem 'byebug'
-  gem 'guard-rspec'
-  gem 'rspec-rails'
+group :production do
+  gem 'unicorn'
 end
-
