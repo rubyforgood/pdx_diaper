@@ -27,6 +27,26 @@ ActiveAdmin.register_page "Dashboard" do
   end
 
   content title: proc{ I18n.t("active_admin.dashboard") } do
+    if !params[:start_date].blank?
+      start = DateTime.strptime(params[:start_date], "%Y-%m-%d").beginning_of_day
+    else
+      start = default_start_date
+    end
+    if !params[:end_date].blank?
+      date_end = DateTime.strptime(params[:end_date], "%Y-%m-%d").end_of_day
+    else
+      date_end = default_end_date
+    end
+    panel "Snapshot for #{start.strftime('%D')} - #{date_end.strftime('%D')}" do
+      columns do
+        column do
+          render partial: 'dashboard/snapshot', locals: { :type => "Donated", data: container_quantity_by_type("Donation", start, date_end) }
+        end
+        column do
+          render partial: 'dashboard/snapshot', locals: { :type => "Ticketed", data: container_quantity_by_type("Ticket", start, date_end) }
+        end
+      end
+    end
     columns do
       column do
         inventories = Inventory.all.collect { |i| i.name }
@@ -49,12 +69,6 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
       column do
-        if !params[:start_date].blank?
-          start = DateTime.strptime(params[:start_date], "%Y-%m-%d").beginning_of_day
-        end
-        if !params[:end_date].blank?
-          date_end = DateTime.strptime(params[:end_date], "%Y-%m-%d").end_of_day
-        end
         panel "Donation Totals" do
           para do
             render partial: 'donation_stats', :locals => {:start_date => start, :end_date => date_end }

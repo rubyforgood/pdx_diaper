@@ -88,4 +88,16 @@ RSpec.describe DashboardHelper, type: :helper do
 			expect(result.last[:data]).to eq({ item.name => 300 })
 		end
 	end
+	describe ".container_quantity_by_type" do
+		it "returns 1000" do
+			i = FactoryGirl.create(:inventory, name: "Thomas's inventory")
+			d = FactoryGirl.create(:donation)
+			item = FactoryGirl.create(:item)
+			c = FactoryGirl.create(:container, quantity: 1000, item: item)
+			d.containers << c
+			d.save
+			result = container_quantity_by_type("Donation")
+			expect(result).to eq(1533)
+		end
+	end
 end

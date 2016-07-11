@@ -17,3 +17,18 @@ $primary-color: #CC1E2F !default;
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+
+// Snapshot styles
+.snapshot {
+	color: #fff;
+	padding: 8px 16px;
+	border-radius: 8px;
+	text-align: center;
+	font-size: 24px;
+}
+#Donated {
+	background-color: #f44336;
+}
+#Ticketed {
+	background-color: #69E85D;
+}
