@@ -55,6 +55,7 @@ RSpec.describe DashboardHelper, type: :helper do
 	end
 	describe ".item_totals_for_inventories" do
 		it "returns an array of hashes" do
+			FactoryGirl.create :holding
 			result = item_totals_for_inventories
 			expect(result).to be_a Array
 			expect(result.first).to be_a Hash
@@ -97,7 +98,77 @@ RSpec.describe DashboardHelper, type: :helper do
 			d.containers << c
 			d.save
 			result = container_quantity_by_type("Donation")
-			expect(result).to eq(1533)
+			expect(result).to eq(1000)
+		end
+	end
+	describe ".ticket_totals_by_inventory" do
+		it "returns hash" do
+			result = ticket_totals_by_inventory
+			expect(result).to be_a Hash
+		end
+		it "returns hash { inventory_id => 1000 }" do
+			allow(helper).to receive(:default_start_date).and_return(DateTime.now)
+			allow(helper).to receive(:default_end_date).and_return(DateTime.now + 1.day)
+			item = FactoryGirl.create(:item)
+			inventory = FactoryGirl.create(:inventory, name: "Thomas's inventory")
+			inventory.holdings << FactoryGirl.create(:holding, quantity: 1000)
+			inventory.save
+			t = FactoryGirl.create(:ticket, inventory: inventory)
+			t.containers << FactoryGirl.create(:container, quantity: 1000, item: item)
+			t.save
+			result = ticket_totals_by_inventory
+			expect(result).to eq({ inventory.id => 1000 })
+		end
+		it "returns hash { inventory_id => 2000 }" do
+			allow(helper).to receive(:default_start_date).and_return(DateTime.now)
+			allow(helper).to receive(:default_end_date).and_return(DateTime.now + 1.day)
+			item = FactoryGirl.create(:item)
+			inventory = FactoryGirl.create(:inventory, name: "Thomas's inventory")
+			inventory.holdings << FactoryGirl.create(:holding, quantity: 1000, inventory: inventory)
+			inventory.save
+			2.times do
+				t = FactoryGirl.create(:ticket, inventory: inventory)
+				t.containers << FactoryGirl.create(:container, quantity: 1000, item: item, itemizable_id: t.id, itemizable_type: "Ticket")
+				t.save
+			end
+			result = ticket_totals_by_inventory
+			expect(result).to eq({ inventory.id => 2000 })
+		end
+	end
+	describe ".ticket_totals_by_partner" do
+		it "returns hash" do
+			result = ticket_totals_by_partner
+			expect(result).to be_a Hash
+		end
+		it "returns hash { partner_id => 1000 }" do
+			allow(helper).to receive(:default_start_date).and_return(DateTime.now)
+			allow(helper).to receive(:default_end_date).and_return(DateTime.now + 1.day)
+			p = FactoryGirl.create :partner
+			item = FactoryGirl.create(:item)
+			inventory = FactoryGirl.create(:inventory, name: "Thomas's inventory")
+			inventory.holdings << FactoryGirl.create(:holding, quantity: 1000)
+			inventory.save
+			t = FactoryGirl.create(:ticket, inventory: inventory, partner: p)
+			t.containers << FactoryGirl.create(:container, quantity: 1000, item: item)
+			t.save
+			result = ticket_totals_by_partner
+			expect(result).to eq({ p.id => 1000 })
+		end
+		it "returns hash { partner_id => 2000 }" do
+			allow(helper).to receive(:default_start_date).and_return(DateTime.now)
+			allow(helper).to receive(:default_end_date).and_return(DateTime.now + 1.day)
+			p = FactoryGirl.create :partner
+			item = FactoryGirl.create(:item)
+			inventory = FactoryGirl.create(:inventory, name: "Thomas's inventory")
+			inventory.holdings << FactoryGirl.create(:holding, quantity: 1000, inventory: inventory)
+			inventory.save
+			2.times do
+				t = FactoryGirl.create(:ticket, inventory: inventory, partner: p)
+				t.containers << FactoryGirl.create(:container, quantity: 1000, item: item, itemizable_id: t.id, itemizable_type: "Ticket")
+				t.save
+			end
+			result = ticket_totals_by_inventory
+			expect(result).to eq({ inventory.id => 2000 })
 		end
 	end
 end

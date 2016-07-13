@@ -28,8 +28,26 @@ module DashboardHelper
 		result
 	end
 
+	def ticket_totals_by_inventory(start_date=send(:default_start_date), end_date=send(:default_end_date))
+		Ticket.joins(:containers)
+			.includes(:containers)
+			.where(created_at: start_date..end_date)
+			.group(:inventory_id)
+			.sum(:quantity)
+	end
+
+	def ticket_totals_by_partner(start_date=send(:default_start_date), end_date=send(:default_end_date))
+		Ticket.joins(:containers)
+			.includes(:containers)
+			.where(created_at: start_date..end_date)
+			.group(:partner_id)
+			.sum(:quantity)
+	end
+
 	def container_quantity_by_type(type, start_date=send(:default_start_date), end_date=send(:default_end_date))
-		Container.where(itemizable_type: type).where(created_at: start_date..end_date).sum(:quantity)
+		Container.where(itemizable_type: type)
+			.where(created_at: start_date..end_date)
+			.sum(:quantity)
 	end
 
 	def default_start_date

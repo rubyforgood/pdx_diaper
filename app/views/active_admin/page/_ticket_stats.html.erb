@@ -1,11 +1,27 @@
 <% start_date = start_date.blank? ? default_start_date : start_date %>
 <% end_date = end_date.blank? ? default_end_date : end_date %>
 <h3><%= "Ticket Totals for #{start_date.strftime('%D')} - #{end_date.strftime('%D')}" %></h3>
-<h5>Totals Items Distributed By Source:</h5>
+<h5>Totals Items Distributed By Inventory Location:</h5>
 <ul>
-  <li>No stats to display yet</li>
+  <% if start_date.blank? || end_date.blank?
+ 	  totals = ticket_totals_by_inventory
+  else
+    totals = ticket_totals_by_inventory(start_date, end_date)
+  end
+
+  totals.each do |source, total| %>
+    <li><%= "#{Inventory.find(source).name}: #{total}" %></li>
+  <% end %>
 </ul>
-<h5>Totals Items Distributed By Location:</h5>
+<h5>Totals Items Distributed To Partner:</h5>
 <ul>
-	<li>No stats to display yet</li>
+	<% if start_date.blank? || end_date.blank?
+ 	  totals = ticket_totals_by_partner
+  else
+    totals = ticket_totals_by_partner(start_date, end_date)
+  end
+
+  totals.each do |source, total| %>
+    <li><%= "#{Partner.find(source).name}: #{total}" %></li>
+  <% end %>
 </ul>

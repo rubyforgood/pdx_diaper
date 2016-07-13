@@ -46,6 +46,9 @@ ActiveAdmin.register_page "Dashboard" do
           render partial: 'dashboard/snapshot', locals: { :type => "Ticketed", data: container_quantity_by_type("Ticket", start, date_end) }
         end
       end
+      div do
+        render partial: 'metrics/inventory_charts', locals: {  }
+      end
     end
     columns do
       column do
@@ -62,10 +65,6 @@ ActiveAdmin.register_page "Dashboard" do
         end
         panel "Inventory Summary" do
           render partial: "inventories/inventory_dashboard_summary", object: all_items, as: :items, locals: { inventories: inventories }
-        end
-
-        panel "Inventory Charts" do
-          render partial: 'metrics/inventory_charts', locals: {  }
         end
       end
       column do

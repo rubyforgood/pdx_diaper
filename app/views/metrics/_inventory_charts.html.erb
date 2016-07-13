@@ -1,7 +1,5 @@
 <%= javascript_include_tag "https://www.google.com/jsapi" %>
 
-<p>
 	<h4>Current Item Totals</h4>
 	<% data = item_totals_for_inventories %>
 	<%= bar_chart(data, stacked: true) %>
-</p>
