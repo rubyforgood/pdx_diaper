@@ -14,6 +14,7 @@ gem 'dotenv-rails', group: :production
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
 gem 'pg'
+gem 'prawn-rails'
 gem 'rake'
 gem 'sass-rails', '~> 5.0'
 gem 'sdoc', '~> 0.4.0', group: :doc

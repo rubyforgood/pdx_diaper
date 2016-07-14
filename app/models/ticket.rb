@@ -28,6 +28,14 @@ class Ticket < ActiveRecord::Base
   validates_associated :containers
   validate :container_items_exist_in_inventory
 
+  def quantities_by_category
+    containers.includes(:item).group("items.category").sum(:quantity)
+  end
+
+  def sorted_containers
+    containers.includes(:item).order("items.name")
+  end
+
   def total_quantity
     containers.sum(:quantity)
   end
