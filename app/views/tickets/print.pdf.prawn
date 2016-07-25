@@ -62,7 +62,7 @@ prawn_document do |pdf|
 
   pdf.move_down 50
 
-  summary = [["Category", "Quantity"]]
+  summary = [["Total Items Distributed", "Quantity"]]
   summary += resource.quantities_by_category.to_a
 
   pdf.table(summary) do
@@ -87,6 +87,12 @@ prawn_document do |pdf|
     column(1).row(1..-1).border_left_color = "aaaaaa"
     column(1).style align: :right
   end
+    
+  pdf.number_pages "Page <page> of <total>", {
+    start_count_at: 1,
+    at: [pdf.bounds.right - 130, 37],
+    align: :right
+  }
 
   pdf.repeat :all do
     # Page footer
@@ -94,11 +100,6 @@ prawn_document do |pdf|
       pdf.font "Helvetica"
       pdf.stroke_horizontal_rule
       pdf.move_down(5)
-      pdf.number_pages "Page <page> of <total>", {
-        start_count_at: 1,
-        at: [pdf.bounds.right - 125, -2],
-        align: :right
-      }
       pdf.table([["PDX Diaper Bank", "P.O. Box 22613, Portland OR 97269", ""]]) do
         self.width = pdf.bounds.width
         cells.borders = []
