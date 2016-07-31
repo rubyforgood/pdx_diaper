@@ -27,6 +27,7 @@ ActiveAdmin.register Ticket do
 
   permit_params :inventory_id,
     :partner_id,
+    :comment,
     :containers_attributes => [:item_id, :quantity, :id, :_destroy]
 
   controller do
@@ -88,6 +89,7 @@ ActiveAdmin.register Ticket do
     inputs do
       input :partner, :label => 'Partner', :as => :select, :collection => Partner.all
       input :inventory, :label => 'Storage Facility', :as => :select, :collection => Inventory.all
+      input :comment, :label => 'Comments', :as => :string
     end
     inputs 'Items' do
       f.has_many :containers, allow_destroy: true do |container|
@@ -103,6 +105,7 @@ ActiveAdmin.register Ticket do
       row :partner
       row :created_at
       row :inventory
+      row :comment
     end
     columns do
       column do

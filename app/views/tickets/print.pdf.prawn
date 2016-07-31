@@ -18,12 +18,17 @@ prawn_document do |pdf|
 
   pdf.font "Helvetica"
   pdf.text "Issued to:", style: :bold
-  pdf.text resource.partner.name
-
+  pdf.text resource.partner.name  
   pdf.move_down 10
 
   pdf.text "Issued on:", style: :bold
   pdf.text resource.created_at.strftime("%m/%d/%Y")
+  pdf.move_down 10
+
+  pdf.text "Comments:", style: :bold
+  pdf.text resource.comment
+
+
 
   pdf.move_down 20
 
