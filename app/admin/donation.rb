@@ -66,7 +66,7 @@ action_item only: :show do
   end
 end
 
-sources = ["Diaper Drive", "Purchased Supplies", "Donation Pickup Location"]
+sources = ["Diaper Drive", "Purchased Supplies", "Donation Pickup Location", "Misc. Donation"]
 
 form do |f|
 	inputs 'Create New Donation' do
