@@ -16,6 +16,10 @@ ActiveAdmin.register Ticket do
     link_to "Reclaim", reclaim_ticket_path(ticket), method: :put
   end
 
+  action_item :print, only: :show do
+    link_to "Print", print_ticket_path(ticket, format: :pdf)
+  end
+
   filter :inventory
   filter :partner
   filter :items
@@ -23,6 +27,7 @@ ActiveAdmin.register Ticket do
 
   permit_params :inventory_id,
     :partner_id,
+    :comment,
     :containers_attributes => [:item_id, :quantity, :id, :_destroy]
 
   controller do
@@ -55,6 +60,10 @@ ActiveAdmin.register Ticket do
     end
   end
 
+  member_action :print do
+    @filename = "pdx_ticket_#{resource.id}.pdf"
+  end
+
   member_action :reclaim, method: :put do
     inventory = resource.inventory
     inventory.reclaim!(resource)
@@ -80,6 +89,7 @@ ActiveAdmin.register Ticket do
     inputs do
       input :partner, :label => 'Partner', :as => :select, :collection => Partner.all
       input :inventory, :label => 'Storage Facility', :as => :select, :collection => Inventory.all
+      input :comment, :label => 'Comments', :as => :string
     end
     inputs 'Items' do
       f.has_many :containers, allow_destroy: true do |container|
@@ -94,13 +104,26 @@ ActiveAdmin.register Ticket do
     attributes_table do
       row :partner
       row :created_at
+      row :inventory
+      row :comment
     end
-    panel "Items" do
-       ul do
-        ticket.containers.each do |container|
-          li [container.item.name, container.quantity].join ", "
+    columns do
+      column do
+        panel "Items" do
+          table_for ticket.sorted_containers do
+            column(:item_name) { |container| container.item.name }
+            column(:quantity)
+          end
         end
-       end
+      end
+      column do
+        panel "By Category" do
+          table_for ticket.quantities_by_category.to_a do
+            column(:category) { |record| record.first }
+            column(:quantity) { |record| record.last }
+          end
+        end
+      end
     end
   end
 end
