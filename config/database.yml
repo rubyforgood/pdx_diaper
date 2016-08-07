@@ -14,11 +14,12 @@ default: &default
   pool: 5
   adapter: postgresql
   host: localhost
-  username: kwalters
 
 development: &development
   <<: *default
   database: pdxdb_development
+  username: <%= ENV['DEV_DB_USERNAME'] %>
+  password: <%= ENV['DEV_DB_PASSWORD'] %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -26,6 +27,8 @@ development: &development
 test:
   <<: *development
   database: pdxdb_test
+  username: <%= ENV['TEST_DB_USERNAME'] %>
+  password: <%= ENV['TEST_DB_PASSWORD'] %>
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
