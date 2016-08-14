@@ -14,7 +14,7 @@ prawn_document do |pdf|
   end
   data += [["", ""], ["Total items", resource.total_quantity]]
 
-  pdf.move_down 75
+  pdf.move_down 55
 
   pdf.font "Helvetica"
   pdf.text "Issued to:", style: :bold
