@@ -52,9 +52,10 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.before(:suite) do
-    FactoryGirl.lint
     DatabaseCleaner.clean_with(:truncation)
     DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean
+    FactoryGirl.lint
   end
 
   config.before(:each) do
