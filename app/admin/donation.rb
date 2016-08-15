@@ -20,9 +20,6 @@ ActiveAdmin.register Donation do
   filter :source, as: :select
   filter :created_at, label: "Donations created between"
 
-  scope :completed
-  scope :incomplete
-
   controller do
     def scoped_collection
       Donation.includes :inventory
@@ -48,54 +45,44 @@ ActiveAdmin.register Donation do
     redirect_to donation_path(params[:id], from:"barcode")
   end
 
-  member_action :complete, method: :put do
-    donation = Donation.find(params[:id])
-    donation.complete
-    redirect_to donation_path(params[:id])
-  end
-
   member_action :destroy_item, method: :put do
     container = Container.find(params[:container_id]).delete
     redirect_to donation_path(params[:donation_id])
   end
 
+  sources = ["Diaper Drive", "Purchased Supplies", "Donation Pickup Location", "Misc. Donation"]
 
-action_item only: :show do
-  if donation.completed == false
-    link_to "Complete donation", complete_donation_path(donation.id), method: :put, data: { confirm: "Are you sure you would like to complete this donation? This action cannot be reversed!" }
+  form do |f|
+	  inputs 'Accept New Donation' do
+      input :dropoff_location_id, :label => 'Dropoff Location', :as => :select, :collection => DropoffLocation.all
+      input :source, :label => 'Source', :as => :select, :collection => sources
+      input :inventory_id, :label => 'Storage Location', :as => :select, :collection => Inventory.all
+    end
+    inputs 'Items' do
+      f.has_many :containers, allow_destroy: true do |container|
+        container.input :item_id, :label => 'Items', :as => :select, :collection => Item.all
+        container.input :quantity
+      end
+    end
+    actions
   end
-end
 
-sources = ["Diaper Drive", "Purchased Supplies", "Donation Pickup Location", "Misc. Donation"]
-
-form do |f|
-	inputs 'Create New Donation' do
-    input :dropoff_location_id, :label => 'Dropoff Location', :as => :select, :collection => DropoffLocation.all
-    input :source, :label => 'Source', :as => :select, :collection => sources
-    input :inventory_id, :label => 'Storage Location', :as => :select, :collection => Inventory.all
-  	actions
+  index do
+    selectable_column
+    column "Receipt Number", :id
+    column :source
+    column "Storage Location" do |d|
+      d.inventory.name
+    end
+    column "Last changed", :updated_at do |d|
+      d.updated_at
+    end
+    column "Started on", :created_at do |d|
+      d.updated_at
+    end
+    actions
   end
-end
-
-index do
-  selectable_column
-  column "Receipt Number", :id
-  column :source
-  column "Storage Location" do |d|
-    d.inventory.name
-  end
-  column "Last changed", :updated_at do |d|
-    d.updated_at
-  end
-  column "Started on", :created_at do |d|
-    d.updated_at
-  end
-  column "Completed?", :completed do |d|
-    d.completed? ? status_tag( "yes", :ok ) : status_tag( "no" )
-  end
-  actions
-end
-
+  
   show do
     attributes_table do
       row('Receipt Number'){ |d| d.id }
@@ -104,7 +91,6 @@ end
       row "Storage Location" do
         resource.inventory.name
       end
-      row :completed
       row :created_at
       row :updated_at
       row "Items" do |donation|
@@ -118,7 +104,7 @@ end
         nil
       end
     end
-
+  
     unless donation.completed == true
       form_for :container, { :url => add_item_donation_path } do |f|
         fieldset class: "inputs" do
@@ -138,7 +124,7 @@ end
           end
         end
       end
-
+  
       form_for :container, { url: add_item_from_barcode_donation_path } do |f|
         fieldset class: "inputs" do
           legend do
@@ -152,9 +138,9 @@ end
             li do
               f.submit
             end
-          end
-        end
-      end
-    end
-  end
+          end # ol
+        end # fieldset
+      end # form
+    end # unless
+  end # show
 end

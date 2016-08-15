@@ -8,6 +8,7 @@
 #  dropoff_location_id :integer
 #  created_at          :datetime
 #  updated_at          :datetime
+#  inventory_id        :integer
 #
 
 class Donation < ActiveRecord::Base
@@ -15,12 +16,13 @@ class Donation < ActiveRecord::Base
   has_many :containers, as: :itemizable, inverse_of: :itemizable
   belongs_to :inventory
   has_many :items, through: :containers
+  accepts_nested_attributes_for :containers,
+    allow_destroy: true
 
   validates :dropoff_location, presence: true
   validates :source, presence: true
+  validates_associated :containers
 
-  scope :completed, -> { where(completed: true) }
-  scope :incomplete, -> { where(completed: false) }
   scope :between, ->(start, stop) { where(donations: { created_at: start..stop }) }
   scope :diaper_drive, -> { where(source: "Diaper Drive") }
 
@@ -56,11 +58,6 @@ class Donation < ActiveRecord::Base
     container = self.containers.find_by(item_id: i.id)
     container.quantity += q
     container.save
-  end
-
-  def complete
-    self.completed = true
-    self.save
   end
 
 end

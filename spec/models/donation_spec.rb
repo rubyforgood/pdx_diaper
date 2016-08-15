@@ -8,6 +8,7 @@
 #  dropoff_location_id :integer
 #  created_at          :datetime
 #  updated_at          :datetime
+#  inventory_id        :integer
 #
 
 require "rails_helper"

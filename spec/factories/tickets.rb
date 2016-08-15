@@ -7,6 +7,7 @@
 #  updated_at   :datetime
 #  partner_id   :integer
 #  inventory_id :integer
+#  comment      :text
 #
 
 FactoryGirl.define do

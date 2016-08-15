@@ -86,7 +86,7 @@ ActiveAdmin.register Ticket do
   end
 
   form do |f|
-    inputs do
+    inputs 'Issue New Ticket' do
       input :partner, :label => 'Partner', :as => :select, :collection => Partner.all
       input :inventory, :label => 'Storage Facility', :as => :select, :collection => Inventory.all
       input :comment, :label => 'Comments', :as => :string
