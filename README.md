@@ -1,6 +1,6 @@
 # README
 
-{<img src="https://travis-ci.org/rubyforgood/pdx_diaper.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/rubyforgood/pdx_diaper]
+[![Build Status](https://travis-ci.org/rubyforgood/pdx_diaper.svg?branch=master)](https://travis-ci.org/rubyforgood/pdx_diaper)
 
 ## Ruby Version
 This app uses Ruby version 2.3.0, indicated in `/.ruby-version`, which will be auto-selected if you use a Ruby versioning manager like `rvm` or `rbenv`.
