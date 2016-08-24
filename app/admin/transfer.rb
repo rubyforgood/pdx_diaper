@@ -1,10 +1,6 @@
 ActiveAdmin.register Transfer do
   actions :all, except: [:edit, :update, :destroy]
 
-  action_item :reclaim, only: :show do
-    link_to "Reclaim", reclaim_transfer_path(transfer), method: :put
-  end
-
   filter :inventory
   filter :partner
   filter :items
