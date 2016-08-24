@@ -1,10 +1,6 @@
 ActiveAdmin.register Transfer do
   actions :all, except: [:edit, :update, :destroy]
 
-  action_item :reclaim, only: :show do
-    link_to "Reclaim", reclaim_transfer_path(transfer), method: :put
-  end
-
   filter :inventory
   filter :partner
   filter :items
@@ -50,8 +46,7 @@ ActiveAdmin.register Transfer do
     column :id do |ticket|
       link_to ticket.id, ticket
     end
-    column :from
-    column :to
+
     column :number_of_items do |ticket|
       ticket.containers.count
     end
@@ -77,9 +72,13 @@ ActiveAdmin.register Transfer do
 
   show do |ticket|
     attributes_table do
-      row :to
+      row('Sending Facility') do |row|
+        link_to row.from.name, inventory_path(row.from)
+      end
+      row('Receiving Facility') do |row|
+        link_to row.to.name, inventory_path(row.to)
+      end
       row :created_at
-      row :from
       row :comment
     end
     columns do

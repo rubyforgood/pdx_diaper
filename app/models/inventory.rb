@@ -50,7 +50,7 @@ class Inventory < ActiveRecord::Base
       holding = self.holdings.find_by(item: container.item)
       next if holding.nil? || holding.quantity == 0
       if holding.quantity >= container.quantity
-        updated_quantities[holding.id] = holding.quantity - container.quantity
+        updated_quantities[holding.id] = (updated_quantities[holding.id] || holding.quantity) - container.quantity
       else
         insufficient_items << {
           item_id: container.item.id,
@@ -78,8 +78,9 @@ class Inventory < ActiveRecord::Base
       new_holding = transfer.to.holdings.find_or_create_by(item: container.item)
       next if holding.nil? || holding.quantity == 0
       if holding.quantity >= container.quantity
-        updated_quantities[holding.id] = holding.quantity - container.quantity
-        updated_quantities[new_holding.id] = new_holding.quantity + container.quantity
+        updated_quantities[holding.id] = (updated_quantities[holding.id] || holding.quantity) - container.quantity
+        updated_quantities[new_holding.id] = (updated_quantities[new_holding.id] || 
+          new_holding.quantity) + container.quantity
       else
         insufficient_items << {
           item_id: container.item.id,
