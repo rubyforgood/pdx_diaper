@@ -22,9 +22,9 @@ ActiveAdmin.register Transfer do
       begin
         inventory.move_inventory!(@transfer) if inventory
         if @transfer.save
-          redirect_to @transfer, notice: "Successfully created new ticket"
+          redirect_to @transfer, notice: "Successfully created new transfer"
         else
-          render :new, error: "There was an error creating the ticket"
+          render :new, error: "There was an error creating the transfer"
         end
       rescue Errors::InsufficientAllotment => e
         items = ""
@@ -45,16 +45,6 @@ ActiveAdmin.register Transfer do
     end
   end
 
-  member_action :print do
-    @filename = "pdx_ticket_#{resource.id}.pdf"
-  end
-
-  member_action :reclaim, method: :put do
-    inventory = resource.inventory
-    inventory.reclaim!(resource)
-    redirect_to tickets_path, notice: "Inventory has been updated and the ticket is destroyed"
-  end
-
   index do
     selectable_column
     column :id do |ticket|
@@ -72,8 +62,8 @@ ActiveAdmin.register Transfer do
 
   form do |f|
     inputs do
-      input :to, :label => 'Sending Facility', :as => :select, :collection => Inventory.all
-      input :from, :label => 'Receiving Facility', :as => :select, :collection => Inventory.all
+      input :from, :label => 'Sending Facility', :as => :select, :collection => Inventory.all
+      input :to, :label => 'Receiving Facility', :as => :select, :collection => Inventory.all
       input :comment, :label => 'Comments', :as => :string
     end
     inputs 'Items' do
