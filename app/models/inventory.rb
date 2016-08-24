@@ -79,7 +79,6 @@ class Inventory < ActiveRecord::Base
       next if holding.nil? || holding.quantity == 0
       if holding.quantity >= container.quantity
         updated_quantities[holding.id] = (updated_quantities[holding.id] || holding.quantity) - container.quantity
-        # updated_quantities[new_holding.id] = new_holding.quantity + container.quantity
         updated_quantities[new_holding.id] = (updated_quantities[new_holding.id] || 
           new_holding.quantity) + container.quantity
       else
