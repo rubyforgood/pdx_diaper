@@ -70,6 +70,37 @@ class Inventory < ActiveRecord::Base
     update_inventory_holdings(updated_quantities)
   end
 
+  def move_inventory!(transfer)
+    updated_quantities = {}
+    insufficient_items = []
+    transfer.containers.each do |container|
+      holding = self.holdings.find_by(item: container.item)
+      new_holding = transfer.to.holdings.find_or_create_by(item: container.item)
+      next if holding.nil? || holding.quantity == 0
+      if holding.quantity >= container.quantity
+        updated_quantities[holding.id] = holding.quantity - container.quantity
+        updated_quantities[new_holding.id] = new_holding.quantity + container.quantity
+      else
+        insufficient_items << {
+          item_id: container.item.id,
+          item_name: container.item.name,
+          quantity_on_hand: holding.quantity,
+          quantity_requested: container.quantity
+        }
+      end
+    end
+
+    unless insufficient_items.empty?
+      raise Errors::InsufficientAllotment.new(
+        "Transfer containers exceed the available inventory",
+        insufficient_items)
+    end
+
+    update_inventory_holdings(updated_quantities)
+  end
+
+
+
   def reclaim!(ticket)
     ActiveRecord::Base.transaction do
       ticket.containers.each do |container|
