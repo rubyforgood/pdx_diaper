@@ -11,6 +11,8 @@
 #
 
 class Holding < ActiveRecord::Base
+  after_initialize :set_quantity
+
   belongs_to :inventory
   belongs_to :item
 
@@ -18,4 +20,8 @@ class Holding < ActiveRecord::Base
   validates :inventory_id, presence: true
   validates :item_id, presence: true
   validates :quantity, numericality: { only_integer: true, greater_than_or_equal_to: 0}
+
+  def set_quantity
+    self.quantity ||= 0
+  end
 end

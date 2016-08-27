@@ -13,7 +13,7 @@
 
 FactoryGirl.define do
 	factory :container do
-		quantity 10
+		quantity 0
 		item
         itemizable_type "Donation"
         itemizable_id { create(:donation).id }

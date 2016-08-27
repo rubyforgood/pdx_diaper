@@ -19,28 +19,28 @@ class Inventory < ActiveRecord::Base
   validates :address, presence: true
 
   def self.item_total(item_id)
-  	Inventory.select('quantity').joins(:holdings).where('holdings.item_id = ?', item_id).collect { |h| h.quantity }.reduce(:+)
+    Inventory.select('quantity').joins(:holdings).where('holdings.item_id = ?', item_id).collect { |h| h.quantity }.reduce(:+)
   end
 
   def item_total(item_id)
-  	holdings.select(item_id: item_id).first.quantity
+    holdings.select(item_id: item_id).first.quantity
   end
 
   def size
-  	holdings.collect { |h| h.quantity }.reduce(:+)
+    holdings.collect { |h| h.quantity }.reduce(:+)
   end
 
   def intake!(donation)
-  	log = {}
-  	donation.containers.each do |container|
-  		holding = Holding.find_or_create_by(inventory_id: self.id, item_id: container.item_id) do |holding|
-  			holding.quantity = 0
-  		end
-  		holding.quantity += container.quantity rescue 0
-  		holding.save
-  		log[container.item_id] = "+#{container.quantity}"
-  	end
-  	log
+    log = {}
+    donation.containers.each do |container|
+      holding = Holding.find_or_create_by(inventory_id: self.id, item_id: container.item_id) do |holding|
+        holding.quantity = 0
+      end
+      holding.quantity += container.quantity rescue 0
+      holding.save
+      log[container.item_id] = "+#{container.quantity}"
+    end
+    log
   end
 
   def distribute!(ticket)
@@ -50,7 +50,7 @@ class Inventory < ActiveRecord::Base
       holding = self.holdings.find_by(item: container.item)
       next if holding.nil? || holding.quantity == 0
       if holding.quantity >= container.quantity
-        updated_quantities[holding.id] = holding.quantity - container.quantity
+        updated_quantities[holding.id] = (updated_quantities[holding.id] || holding.quantity) - container.quantity
       else
         insufficient_items << {
           item_id: container.item.id,
@@ -78,8 +78,9 @@ class Inventory < ActiveRecord::Base
       new_holding = transfer.to.holdings.find_or_create_by(item: container.item)
       next if holding.nil? || holding.quantity == 0
       if holding.quantity >= container.quantity
-        updated_quantities[holding.id] = holding.quantity - container.quantity
-        updated_quantities[new_holding.id] = new_holding.quantity + container.quantity
+        updated_quantities[holding.id] = (updated_quantities[holding.id] || holding.quantity) - container.quantity
+        updated_quantities[new_holding.id] = (updated_quantities[new_holding.id] || 
+          new_holding.quantity) + container.quantity
       else
         insufficient_items << {
           item_id: container.item.id,
