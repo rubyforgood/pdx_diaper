@@ -31,7 +31,7 @@ on an [open issue]–if the relevant issue doesn't exist, open it!
 At this point you're waiting on us–we'll try to respond to your PR quickly.
 We may suggest some changes or improvements or alternatives.
 
-Some things that will increase the chance that your pull request is accepted.
+Some things that will increase the chance that your pull request is accepted:
 
 * Use Rails idioms and helpers
 * Include tests that fail without your code, and pass with it
