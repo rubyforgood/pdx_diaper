@@ -50,6 +50,8 @@ ActiveAdmin.register Donation do
 
   member_action :complete, method: :put do
     donation = Donation.find(params[:id])
+    inventory = Inventory.find(donation.inventory_id)
+    inventory.intake!(donation)
     donation.complete
     redirect_to donation_path(params[:id])
   end
