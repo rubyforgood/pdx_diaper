@@ -5,7 +5,8 @@ gem 'rails', '~> 4.2.6'
 
 gem "chartkick"
 gem "groupdate"
-gem 'activeadmin', '~> 1.0.0-pre2', github: 'armahillo/activeadmin'
+gem 'jquery-ui-rails', '5.0.5'
+gem 'activeadmin', git: 'https://github.com/armahillo/activeadmin.git'
 gem 'cancancan', '~> 1.10'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'devise'
