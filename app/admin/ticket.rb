@@ -23,6 +23,8 @@ ActiveAdmin.register Ticket do
   filter :inventory
   filter :partner
   filter :items
+  filter :items, as: :select,
+        collection: proc { Item.all.order(:name).map { |a| [a.name, a.id] } }
   filter :created_at, as: :date_range
 
   permit_params :inventory_id,
@@ -93,7 +95,7 @@ ActiveAdmin.register Ticket do
     end
     inputs 'Items' do
       f.has_many :containers, allow_destroy: true do |container|
-        container.input :item_id, :label => 'Items', :as => :select, :collection => Item.all
+        container.input :item_id, :label => 'Items', :as => :select, :collection => Item.all.order(:name)
         container.input :quantity
       end
     end

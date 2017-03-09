@@ -16,7 +16,8 @@ ActiveAdmin.register Donation do
   permit_params :source, :dropoff_location_id, :inventory_id, :containers_attributes => [:item_id, :quantity, :id, :_destroy]
 
   filter :dropoff_location
-  filter :items, label: "Donations containing this item"
+  filter :items, label: "Donations containing this item", as: :select,
+        collection: proc { Item.all.order(:name).map { |a| [a.name, a.id] } }
   filter :source, as: :select
   filter :created_at, label: "Donations created between"
 
@@ -128,7 +129,7 @@ end
           ol do
             li class: "select input" do
               f.label :item, class: "label"
-              f.select("item_id", Item.all.collect { |i| [i.name, i.id] } )
+              f.select("item_id", Item.all.order(:name).collect { |i| [i.name, i.id] } )
             end
             li class: "input" do
               f.label :quantity
